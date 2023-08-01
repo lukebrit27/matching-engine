@@ -8,33 +8,43 @@
 #include <chrono>
 #include <boost/uuid/uuid.hpp>
 
+enum class OrderType {limit, market};
+enum class OrderStatus {newo, cancelled, partiallyFilled, filled};
+
 class Order{
 private:
     //variables
     std::chrono::time_point<std::chrono::high_resolution_clock> event_timestamp;
     unsigned int price;
     unsigned int quantity;
-    unsigned int leaves_quantity;
+    mutable unsigned int leaves_quantity;
     char side;
-    boost::uuids::uuid order_id;
-    std::string order_type;    
+    boost::uuids::uuid order_id;  
+    OrderType order_type;  
+    mutable OrderStatus order_status; 
+    //functions
+    void updateLeavesQuantity(unsigned int fill_quantity) const;
+    void updateOrderStatus() const;
 public:
     //constructor
-    Order(unsigned int arg_price, unsigned int arg_quantity, std::string arg_order_type, char arg_side);
+    Order(unsigned int arg_price, unsigned int arg_quantity, OrderType arg_order_type, char arg_side);
     //variables
-    static const std::string valid_order_types[];
     //functions
     void validateOrder();
-    void validateOrderType();
+    void validateSide();
     unsigned int getPrice() const;
     unsigned int getQuantity() const;
     unsigned int getLeavesQuantity() const;
     char getSide() const;
     boost::uuids::uuid getOrderID() const;
     std::string getOrderIDString() const;
-    std::string getOrderType() const;   
+    OrderType getOrderType() const;   
+    std::string getOrderTypeString() const;  
+    OrderStatus getOrderStatus() const; 
     std::vector<std::string> getOrderDetails() const;
     void printOrderDetails() const;  
+    bool fillOrder(unsigned int fill_quantity) const;
+    bool checkMatch(Order& order) const;
 };
 
 #endif //ORDER_H
