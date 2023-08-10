@@ -1,10 +1,10 @@
 // Luke Britton, 11 Jul 23, Order.cpp
 #include <string>
 #include <map>
-#include <iostream>
 #include <stdexcept>
 #include "Order.h"
-#include <utils.h>
+#include "Logger.h"
+#include "CurrentTime.h"
 #include <boost/uuid/uuid.hpp>            // uuid class
 #include <boost/uuid/uuid_generators.hpp> // generators
 #include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
@@ -16,13 +16,21 @@ Order::Order(unsigned int arg_price, unsigned int arg_quantity, OrderType arg_or
     price = arg_price;
     quantity = arg_quantity;
     order_type = arg_order_type;
-    event_timestamp = std::chrono::high_resolution_clock::now();
+    event_timestamp = CurrentTime::nanoseconds();
     leaves_quantity = arg_quantity;
     side = arg_side;
     order_id = boost::uuids::random_generator()();
     order_status = OrderStatus::newo;
 
     validateOrder();
+
+    Logger::getLogger()->info("NEW ORDER: " + getOrderIDString());
+    printOrderDetails(); 
+}
+
+Order::~Order(){
+    Logger::getLogger()->info("ORDER DELETED: " + getOrderIDString());
+    printOrderDetails();     
 }
 
 void Order::validateOrder(){
@@ -71,16 +79,27 @@ OrderStatus Order::getOrderStatus() const{
     return order_status;
 }; 
 
+std::string Order::getOrderStatusString() const{
+    switch (order_status){
+        case OrderStatus::newo: return "newo";
+        case OrderStatus::cancelled: return "cancelled";
+        case OrderStatus::partiallyFilled: return "partiallyFilled";
+        case OrderStatus::filled: return "filled";
+        default: return "";
+    };     
+};
+
 std::vector<std::string> Order::getOrderDetails() const{
     std::vector<std::string> details;
 
-    details.push_back("price | " + std::to_string(price) + "\n");
-    details.push_back("quantity | " + std::to_string(quantity) + "\n");
-    details.push_back("order_type | " + getOrderTypeString() + "\n");
-    details.push_back("event_timestamp | " + utils::timePointAsString(event_timestamp) + "\n");
-    details.push_back("leaves_quantity | " + std::to_string(leaves_quantity) + "\n");
-    details.push_back("side | " + std::to_string(side) + "\n");
-    details.push_back( "order_id | " + getOrderIDString() + "\n");
+    details.push_back("{price : " + std::to_string(price) + ", ");
+    details.push_back("quantity : " + std::to_string(quantity) + ", ");
+    details.push_back("order_type : " + getOrderTypeString() + ", ");
+    details.push_back("order_status : " + getOrderStatusString() + ", ");
+    details.push_back("event_timestamp : " + CurrentTime::convertNanosecondsToTimestamp(event_timestamp) + ", ");
+    details.push_back("leaves_quantity : " + std::to_string(leaves_quantity) + ", ");
+    details.push_back("side : " + std::to_string(side) + ", ");
+    details.push_back( "order_id : " + getOrderIDString() + "}");
 
     return details;
 }; 
@@ -89,12 +108,14 @@ std::vector<std::string> Order::getOrderDetails() const{
 void Order::printOrderDetails() const{
     std::vector<std::string> details = getOrderDetails();
 
+    std::string details_string = "";
     std::vector<std::string>::iterator it;
     for (it = details.begin(); it != details.end(); it++) {
-        std::cout << *it << std::endl;
+        details_string += *it;
     }
 
-    std::cout << "" << std::endl;
+    details_string += " \n";
+    Logger::getLogger()->info(details_string);
 };
 
 bool Order::fillOrder(unsigned int fill_quantity) const{
@@ -102,6 +123,8 @@ bool Order::fillOrder(unsigned int fill_quantity) const{
 
     updateLeavesQuantity(fill_quantity);
     updateOrderStatus();
+
+    return order_status == OrderStatus::filled;
 };
 
 void Order::updateLeavesQuantity(unsigned int fill_quantity) const{

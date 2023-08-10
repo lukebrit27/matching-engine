@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <chrono>
 #include <boost/uuid/uuid.hpp>
 
 enum class OrderType {limit, market};
@@ -14,7 +13,7 @@ enum class OrderStatus {newo, cancelled, partiallyFilled, filled};
 class Order{
 private:
     //variables
-    std::chrono::time_point<std::chrono::high_resolution_clock> event_timestamp;
+    uint64_t event_timestamp;
     unsigned int price;
     unsigned int quantity;
     mutable unsigned int leaves_quantity;
@@ -28,6 +27,8 @@ private:
 public:
     //constructor
     Order(unsigned int arg_price, unsigned int arg_quantity, OrderType arg_order_type, char arg_side);
+    //destructor
+    ~Order();
     //variables
     //functions
     void validateOrder();
@@ -41,6 +42,7 @@ public:
     OrderType getOrderType() const;   
     std::string getOrderTypeString() const;  
     OrderStatus getOrderStatus() const; 
+    std::string getOrderStatusString() const;
     std::vector<std::string> getOrderDetails() const;
     void printOrderDetails() const;  
     bool fillOrder(unsigned int fill_quantity) const;

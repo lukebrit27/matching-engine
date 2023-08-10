@@ -1,6 +1,7 @@
 // Luke Britton, 24 Jul 23, Book.cpp
 #include "Book.h"
 #include <iostream>
+#include "Logger.h"
 
 
 // Definition of the comparison function for the struct compareOrders
@@ -144,7 +145,6 @@ void Book::matchMarket(Order& new_order, std::vector<Order>& market_orders){
     
 };
 
-
 void Book::cancelOrder(){
 
 };
@@ -152,10 +152,3 @@ void Book::cancelOrder(){
 // std::vector<Order*> Book::getTopOfBook(int level){
 
 // };
-
-void Book::printBids(unsigned int num){
-    auto it = bids.begin();
-    for (int i = 0; i < num && it != bids.end(); ++i, ++it) {
-        it->printOrderDetails();
-    };
-};

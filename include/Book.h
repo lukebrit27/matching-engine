@@ -4,6 +4,7 @@
 #include <string>
 #include <set>
 #include <vector>
+#include <variant>
 #include "Order.h"
 
 class Book{
@@ -21,14 +22,13 @@ private:
     bool match(Order& new_order);
     void matchBook(Order& new_order, std::multiset<Order, compareOrders>& orderbook);
     void matchMarket(Order& new_order, std::vector<Order>& market_orders);
-    void queue(Order& new_order);  
+    void queue(Order& new_order);
 
 public:
     //functions
     void submitOrder(unsigned int price, unsigned int quantity, OrderType order_type, char side);
     void cancelOrder();
     std::vector<Order*> getTopOfBook(unsigned int level);
-    void printBids(unsigned int num);
 };
 
 #endif // BOOK_H
