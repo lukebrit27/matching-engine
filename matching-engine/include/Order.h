@@ -13,7 +13,7 @@ enum class OrderStatus {newo, cancelled, partiallyFilled, filled};
 class Order{
 private:
     //variables
-    uint64_t event_timestamp;
+    mutable uint64_t event_timestamp;
     unsigned int price;
     unsigned int quantity;
     mutable unsigned int leaves_quantity;
@@ -24,6 +24,7 @@ private:
     //functions
     void updateLeavesQuantity(unsigned int fill_quantity) const;
     void updateOrderStatus() const;
+    void updateEventTimestamp() const;
 public:
     //constructor
     Order(unsigned int arg_price, unsigned int arg_quantity, OrderType arg_order_type, char arg_side);
@@ -44,6 +45,7 @@ public:
     OrderStatus getOrderStatus() const; 
     std::string getOrderStatusString() const;
     std::vector<std::string> getOrderDetails() const;
+    std::string getOrderDetailsString() const;
     void printOrderDetails() const;  
     bool fillOrder(unsigned int fill_quantity) const;
     bool checkMatch(Order& order) const;

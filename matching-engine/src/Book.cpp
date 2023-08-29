@@ -1,6 +1,6 @@
 // Luke Britton, 24 Jul 23, Book.cpp
+#include <memory>
 #include "Book.h"
-#include <iostream>
 #include "Logger.h"
 
 
@@ -22,11 +22,10 @@ bool Book::compareOrders::operator()(const Order& ord1, const Order& ord2) const
 };
 
 void Book::submitOrder(unsigned int price, unsigned int quantity, OrderType order_type, char side){
-    Order* order = new Order(price, quantity, order_type, side);
+    std::shared_ptr<Order> order = std::make_shared<Order>(price, quantity, order_type, side);
     bool filled = match(*order);
     if (!filled)
         queue(*order);
-    delete order;
 };
 
 void Book::queue(Order& new_order){
@@ -41,6 +40,7 @@ void Book::queue(Order& new_order){
             else if (side == 'S') {
                 asks.insert(new_order); // add to asks (sorted by ascending price on insert)
             }
+            break;
         }
         case OrderType::market:{
             if (side == 'B') {
@@ -49,6 +49,7 @@ void Book::queue(Order& new_order){
             else if (side == 'S') {
                 market_asks.push_back(new_order); // add to market asks
             }
+            break;
         }        
     } 
 };
@@ -77,6 +78,7 @@ bool Book::match(Order& new_order){
                 matchMarket(new_order, market_bids);
                 matchBook(new_order, bids);
             }
+            break;
         }
         case OrderType::market:{
             if (side == 'B') {
@@ -85,6 +87,7 @@ bool Book::match(Order& new_order){
             else if (side == 'S') {
                 matchBook(new_order, bids);
             }
+            break;
         }        
     };
 
@@ -101,6 +104,7 @@ void Book::matchBook(Order& new_order, std::multiset<Order, compareOrders>& orde
     bool is_match = true;
     std::multiset<Order, compareOrders>::iterator book_it = orderbook.begin();
     while(is_match && (new_order.getOrderStatus() != OrderStatus::filled) && book_it != orderbook.end()){
+        Logger::getLogger()->debug("DEBUGGING LOOP: " + book_it->getOrderDetailsString());
         
         is_match = book_it->checkMatch(new_order);
         // if orders match fill the orders

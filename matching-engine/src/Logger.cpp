@@ -17,7 +17,7 @@ std::shared_ptr<spdlog::logger> Logger::getLogger() {
 
         auto async_logger = std::make_shared<spdlog::async_logger>("shared_logger", sinks.begin(), sinks.end(), spdlog::thread_pool(), spdlog::async_overflow_policy::block);
         async_logger->set_level(spdlog::level::debug);
-        async_logger->set_pattern("[%H:%M:%S.%e] [%n] [%l] %v");
+        async_logger->set_pattern("[%Y-%m-%d %H:%M:%S.%f] [%n] [%l] %v");
 
         // Register a callback to shut down the logger when the program exits
         std::atexit([] { spdlog::shutdown(); });

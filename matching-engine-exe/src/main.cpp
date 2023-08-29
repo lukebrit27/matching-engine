@@ -1,12 +1,20 @@
+#include <thread>
+#include <chrono>
 #include "Book.h"
 #include "Order.h"
-#include <iostream>
 #include "Logger.h"
+// #include "oatpp/web/server/api/ApiController.hpp"
 
 //NEXT TIME DEVVING NOTE
-// Add more logging and validate matching logic working as expected
-// figure out API for submitting orders
-// figure out if there's a way to add 'debug' logging that can be turned on & off 
+// Figure out how to write main in such a way that entites can begin submitting orders by loading some library into python
+// User Experience should be
+    // 1. spin up the exchange via python 
+        // a. import matching-engine as eng
+        // b. eng.start(`TSLA`GOOG`MSFT);
+    // 2. begin submitting orders to that exchange via python
+        // a. eng.submitOrder(TSLA, 34.3 )
+    // 3. getting statuses on orders
+    // 4. getting acknowledgements of orders
 
 //######
 // V1 TO-DOS - CORE 

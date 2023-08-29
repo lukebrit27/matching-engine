@@ -98,23 +98,29 @@ std::vector<std::string> Order::getOrderDetails() const{
     details.push_back("order_status : " + getOrderStatusString() + ", ");
     details.push_back("event_timestamp : " + CurrentTime::convertNanosecondsToTimestamp(event_timestamp) + ", ");
     details.push_back("leaves_quantity : " + std::to_string(leaves_quantity) + ", ");
-    details.push_back("side : " + std::to_string(side) + ", ");
+    details.push_back("side : " + std::string(1, side) + ", ");
     details.push_back( "order_id : " + getOrderIDString() + "}");
 
     return details;
 }; 
 
-
-void Order::printOrderDetails() const{
+std::string Order::getOrderDetailsString() const{
     std::vector<std::string> details = getOrderDetails();
 
     std::string details_string = "";
     std::vector<std::string>::iterator it;
     for (it = details.begin(); it != details.end(); it++) {
         details_string += *it;
-    }
+    };
 
     details_string += " \n";
+
+    return details_string;
+};
+
+void Order::printOrderDetails() const{
+
+    std::string details_string = getOrderDetailsString();
     Logger::getLogger()->info(details_string);
 };
 
@@ -123,6 +129,7 @@ bool Order::fillOrder(unsigned int fill_quantity) const{
 
     updateLeavesQuantity(fill_quantity);
     updateOrderStatus();
+    updateEventTimestamp();
 
     return order_status == OrderStatus::filled;
 };
@@ -149,6 +156,10 @@ void Order::updateOrderStatus() const{
                 throw std::range_error("leaves quantity is greater than the quantity");
         }
     };   
+};
+
+void Order::updateEventTimestamp() const{
+    event_timestamp = CurrentTime::nanoseconds();
 };
 
 bool Order::checkMatch(Order& order) const{
