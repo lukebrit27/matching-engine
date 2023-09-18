@@ -1,14 +1,13 @@
 // Luke Britton, 24 Jul 23, Book.cpp
 #include <memory>
-#include "Book.h"
-#include "Logger.h"
+#include "Book.hpp"
+#include "Logger.hpp"
 
+Book::Book(std::string arg_instrument_id) : instrument_id(arg_instrument_id){};
 
 // Definition of the comparison function for the struct compareOrders
 bool Book::compareOrders::operator()(const Order& ord1, const Order& ord2) const{
 
-    //std::cout << "Order1 " << ord1.getOrderIDString() << ": " << ord1.getPrice() << " > " << "Order2 " << ord2.getOrderIDString() << ": " << ord2.getPrice() << " = " << (ord1.getPrice() > ord2.getPrice()) << std::endl;   
-    //std::cout << "############################################" << std::endl;       
     // Return true if ord1 should be placed before ord2 in the multiset
     // Return false otherwise
     if (ord1.getSide() == 'B' && ord2.getSide() == 'B') {
@@ -22,7 +21,7 @@ bool Book::compareOrders::operator()(const Order& ord1, const Order& ord2) const
 };
 
 void Book::submitOrder(unsigned int price, unsigned int quantity, OrderType order_type, char side){
-    std::shared_ptr<Order> order = std::make_shared<Order>(price, quantity, order_type, side);
+    std::shared_ptr<Order> order = std::make_shared<Order>(instrument_id, price, quantity, order_type, side);
     bool filled = match(*order);
     if (!filled)
         queue(*order);

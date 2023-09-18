@@ -2,24 +2,20 @@
 #include <string>
 #include <map>
 #include <stdexcept>
-#include "Order.h"
-#include "Logger.h"
-#include "CurrentTime.h"
+#include "Order.hpp"
+#include "Logger.hpp"
+#include "CurrentTime.hpp"
 #include <boost/uuid/uuid.hpp>            // uuid class
 #include <boost/uuid/uuid_generators.hpp> // generators
 #include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
 
 
 // Constructor: Initialize the Order object
-Order::Order(unsigned int arg_price, unsigned int arg_quantity, OrderType arg_order_type, char arg_side){
+Order::Order(std::string arg_instrument_id, unsigned int arg_price, unsigned int arg_quantity, OrderType arg_order_type, char arg_side) : 
+    instrument_id(arg_instrument_id), price(arg_price), quantity(arg_quantity), order_type(arg_order_type), side(arg_side), order_id(boost::uuids::random_generator()()) {
 
-    price = arg_price;
-    quantity = arg_quantity;
-    order_type = arg_order_type;
     event_timestamp = CurrentTime::nanoseconds();
     leaves_quantity = arg_quantity;
-    side = arg_side;
-    order_id = boost::uuids::random_generator()();
     order_status = OrderStatus::newo;
 
     validateOrder();
@@ -33,6 +29,12 @@ Order::~Order(){
     printOrderDetails();     
 }
 
+Order& Order::operator=(const Order& other) {
+  // Handle self-assignment
+  // ensures no weird errors from compiler not wanting constants to be reassigned
+  return *this;
+}
+
 void Order::validateOrder(){
     //validateOrderType();
     validateSide();
@@ -43,18 +45,26 @@ void Order::validateSide(){
         throw std::invalid_argument("invalid side");
 };
 
+std::string Order::getInstrumentID() const{
+    return instrument_id;
+};
+
 unsigned int Order::getPrice() const{
     return price;
 };
+
 unsigned int Order::getQuantity() const{
     return quantity;
 };
+
 unsigned int Order::getLeavesQuantity() const{
     return leaves_quantity;
 };
+
 char Order::getSide() const{
     return side;
 };
+
 boost::uuids::uuid Order::getOrderID() const{
     return order_id;
 };
@@ -92,7 +102,8 @@ std::string Order::getOrderStatusString() const{
 std::vector<std::string> Order::getOrderDetails() const{
     std::vector<std::string> details;
 
-    details.push_back("{price : " + std::to_string(price) + ", ");
+    details.push_back("{instrument_id : " + instrument_id + ", ");
+    details.push_back("price : " + std::to_string(price) + ", ");
     details.push_back("quantity : " + std::to_string(quantity) + ", ");
     details.push_back("order_type : " + getOrderTypeString() + ", ");
     details.push_back("order_status : " + getOrderStatusString() + ", ");

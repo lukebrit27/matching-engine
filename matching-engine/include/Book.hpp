@@ -5,7 +5,7 @@
 #include <set>
 #include <vector>
 #include <variant>
-#include "Order.h"
+#include "Order.hpp"
 
 class Book{
 private:
@@ -18,6 +18,7 @@ private:
     std::multiset<Order, compareOrders> asks;
     std::vector<Order> market_bids;
     std::vector<Order> market_asks;
+    const std::string instrument_id;
     //functions
     bool match(Order& new_order);
     void matchBook(Order& new_order, std::multiset<Order, compareOrders>& orderbook);
@@ -26,6 +27,7 @@ private:
 
 public:
     //functions
+    Book(std::string arg_instrument_id);
     void submitOrder(unsigned int price, unsigned int quantity, OrderType order_type, char side);
     void cancelOrder();
     std::vector<Order*> getTopOfBook(unsigned int level);

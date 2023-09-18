@@ -1,6 +1,6 @@
 //Luke Britton, 9 Aug 23, Logger.cpp
 
-#include "Logger.h"  // Header file for the logger singleton
+#include "Logger.hpp"  // Header file for the logger singleton
 
 std::shared_ptr<spdlog::logger> Logger::getLogger() {
     static std::shared_ptr<spdlog::logger> logger = [] {

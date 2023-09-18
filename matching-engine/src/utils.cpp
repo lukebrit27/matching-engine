@@ -1,7 +1,7 @@
 // Luke Britton, 6 Jun 23, utils.cpp
 #include <algorithm>
 #include <random>
-#include <utils.h>
+#include <utils.hpp>
 
 // Generate a vector containing integers from 0 to x-1
 std::vector<int> utils::til(int x){

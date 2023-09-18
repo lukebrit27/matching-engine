@@ -11,15 +11,16 @@ enum class OrderType {limit, market};
 enum class OrderStatus {newo, cancelled, partiallyFilled, filled};
 
 class Order{
-private:
+protected:
     //variables
+    const std::string instrument_id;
     mutable uint64_t event_timestamp;
-    unsigned int price;
-    unsigned int quantity;
+    const unsigned int price;
+    const unsigned int quantity;
     mutable unsigned int leaves_quantity;
-    char side;
-    boost::uuids::uuid order_id;  
-    OrderType order_type;  
+    const char side;
+    const boost::uuids::uuid order_id;  
+    const OrderType order_type;  
     mutable OrderStatus order_status; 
     //functions
     void updateLeavesQuantity(unsigned int fill_quantity) const;
@@ -27,13 +28,16 @@ private:
     void updateEventTimestamp() const;
 public:
     //constructor
-    Order(unsigned int arg_price, unsigned int arg_quantity, OrderType arg_order_type, char arg_side);
+    Order(std::string arg_instrument_id, unsigned int arg_price, unsigned int arg_quantity, OrderType arg_order_type, char arg_side);
     //destructor
     ~Order();
     //variables
+    //operators
+    Order& operator=(const Order& other);
     //functions
     void validateOrder();
     void validateSide();
+    std::string getInstrumentID() const;
     unsigned int getPrice() const;
     unsigned int getQuantity() const;
     unsigned int getLeavesQuantity() const;

@@ -1,8 +1,7 @@
-#include <thread>
-#include <chrono>
-#include "Book.h"
-#include "Order.h"
-#include "Logger.h"
+#include <string>
+#include "Book.hpp"
+#include "Order.hpp"
+#include "Logger.hpp"
 // #include "oatpp/web/server/api/ApiController.hpp"
 
 //NEXT TIME DEVVING NOTE
@@ -42,7 +41,7 @@ int main(int argc, char* argv[]){
    auto logger = Logger::getLogger();
    logger->info("This is a log message from another file.");
 
-   Book orderbook = Book();
+   Book orderbook = Book("TEST");
 
    orderbook.submitOrder(2055, 3000, OrderType::limit, 'B');
 
