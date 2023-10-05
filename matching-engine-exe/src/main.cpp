@@ -2,9 +2,15 @@
 #include "Book.hpp"
 #include "Order.hpp"
 #include "Logger.hpp"
+#include "Engine.hpp"
 // #include "oatpp/web/server/api/ApiController.hpp"
 
 //NEXT TIME DEVVING NOTE
+// In Engine.hpp need to switch books to an unordered_map so can have constant time insertions and searches 
+// write submitOrder function for Engine.cpp
+// Clean up logging in Book.cpp/Order.cpp
+
+//CURRENT GOALS
 // Figure out how to write main in such a way that entites can begin submitting orders by loading some library into python
 // User Experience should be
     // 1. spin up the exchange via python 
@@ -38,19 +44,16 @@
 // network considerations assuming a large trader base of bots (managing connections tcp/multicast, subscriptions etc. credentials to connect to the exchange?)
 
 int main(int argc, char* argv[]){
-   auto logger = Logger::getLogger();
-   logger->info("This is a log message from another file.");
 
-   Book orderbook = Book("TEST");
+//    Book orderbook = Book("TEST");
+//    orderbook.submitOrder(2055, 3000, OrderType::limit, 'B');
+//    orderbook.submitOrder(2055, 33000, OrderType::limit, 'B');
+//    orderbook.submitOrder(2059, 400, OrderType::limit, 'B');
+//    orderbook.submitOrder(2056, 1100, OrderType::limit, 'B');   
+//    orderbook.submitOrder(2055, 2000, OrderType::limit, 'S'); 
 
-   orderbook.submitOrder(2055, 3000, OrderType::limit, 'B');
-
-   orderbook.submitOrder(2055, 33000, OrderType::limit, 'B');
-    
-   orderbook.submitOrder(2059, 400, OrderType::limit, 'B');
-  
-   orderbook.submitOrder(2056, 1100, OrderType::limit, 'B');   
-    
-   orderbook.submitOrder(2055, 2000, OrderType::limit, 'S'); 
+    Engine engine = Engine();
+    engine.start({"TEST1","TEST2","TEST3","TEST2"});
+    engine.submitOrder("TEST1", 2055, 2000, "limit", 'S'); 
 
 };

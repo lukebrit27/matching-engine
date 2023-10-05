@@ -1,5 +1,5 @@
 // Luke Britton, 24 Jul 23, Book.cpp
-#include <memory>
+#include <type_traits>
 #include "Book.hpp"
 #include "Logger.hpp"
 
@@ -18,13 +18,6 @@ bool Book::compareOrders::operator()(const Order& ord1, const Order& ord2) const
         // Orders with different sides should not be compared
         return false;
     }             
-};
-
-void Book::submitOrder(unsigned int price, unsigned int quantity, OrderType order_type, char side){
-    std::shared_ptr<Order> order = std::make_shared<Order>(instrument_id, price, quantity, order_type, side);
-    bool filled = match(*order);
-    if (!filled)
-        queue(*order);
 };
 
 void Book::queue(Order& new_order){
@@ -150,6 +143,10 @@ void Book::matchMarket(Order& new_order, std::vector<Order>& market_orders){
 
 void Book::cancelOrder(){
 
+};
+
+std::string Book::getInstrumentID() const{
+    return instrument_id;
 };
 
 // std::vector<Order*> Book::getTopOfBook(int level){

@@ -10,20 +10,7 @@
 #include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
 
 
-// Constructor: Initialize the Order object
-Order::Order(std::string arg_instrument_id, unsigned int arg_price, unsigned int arg_quantity, OrderType arg_order_type, char arg_side) : 
-    instrument_id(arg_instrument_id), price(arg_price), quantity(arg_quantity), order_type(arg_order_type), side(arg_side), order_id(boost::uuids::random_generator()()) {
-
-    event_timestamp = CurrentTime::nanoseconds();
-    leaves_quantity = arg_quantity;
-    order_status = OrderStatus::newo;
-
-    validateOrder();
-
-    Logger::getLogger()->info("NEW ORDER: " + getOrderIDString());
-    printOrderDetails(); 
-}
-
+// Destructor
 Order::~Order(){
     Logger::getLogger()->info("ORDER DELETED: " + getOrderIDString());
     printOrderDetails();     
