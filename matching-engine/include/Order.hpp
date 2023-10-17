@@ -43,8 +43,7 @@ public:
 
         validateOrder();
 
-        Logger::getLogger()->info("NEW ORDER: " + getOrderIDString());
-        printOrderDetails();
+        Logger::getLogger()->debug("NEW ORDER OBJECT CREATED: " + getOrderIDString());
     };
     //destructor
     ~Order();

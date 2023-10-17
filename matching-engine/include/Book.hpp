@@ -7,6 +7,7 @@
 #include <variant>
 #include <memory>
 #include "Order.hpp"
+#include "Logger.hpp"
 
 class Book{
 private:
@@ -37,9 +38,12 @@ public:
     requires std::is_same_v<T, OrderType> || std::is_same_v<T, std::string>
     void submitOrder(unsigned int price, unsigned int quantity, T order_type, char side){
         std::shared_ptr<Order> order = std::make_shared<Order>(instrument_id, price, quantity, order_type, side);
+        Logger::getLogger()->info("NEW ORDER SUBMITTED - " + order->getOrderDetailsString());
         bool filled = match(*order);
         if (!filled)
             queue(*order);
+        else
+            Logger::getLogger()->info("NEW ORDER FILLED - order id: " + order->getOrderIDString());
     }; 
     // functions   
     void cancelOrder();

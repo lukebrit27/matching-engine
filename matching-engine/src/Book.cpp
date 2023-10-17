@@ -106,8 +106,10 @@ void Book::matchBook(Order& new_order, std::multiset<Order, compareOrders>& orde
         };
 
         // if current order filled, remove from orderbook
-        if(book_it->getOrderStatus() == OrderStatus::filled)
+        if(book_it->getOrderStatus() == OrderStatus::filled){
+            Logger::getLogger()->info("ORDER FILLED - Removing order id: " + book_it->getOrderIDString() + " from book: " + instrument_id);
             book_it = orderbook.erase(book_it);
+        }
         else
             ++book_it;
     };    
@@ -132,8 +134,10 @@ void Book::matchMarket(Order& new_order, std::vector<Order>& market_orders){
         };
 
         // if current order filled, remove from orderbook
-        if(mkt_it->getOrderStatus() == OrderStatus::filled)
+        if(mkt_it->getOrderStatus() == OrderStatus::filled){
+            Logger::getLogger()->info("ORDER FILLED - Removing order id: " + mkt_it->getOrderIDString() + " from book: " + instrument_id);
             mkt_it = market_orders.erase(mkt_it);
+        }
         else
             ++mkt_it;
     };            

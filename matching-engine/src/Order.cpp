@@ -12,8 +12,7 @@
 
 // Destructor
 Order::~Order(){
-    Logger::getLogger()->info("ORDER DELETED: " + getOrderIDString());
-    printOrderDetails();     
+    Logger::getLogger()->debug("ORDER OBJECT DELETED: " + getOrderIDString());    
 }
 
 Order& Order::operator=(const Order& other) {
@@ -128,7 +127,8 @@ bool Order::fillOrder(unsigned int fill_quantity) const{
     updateLeavesQuantity(fill_quantity);
     updateOrderStatus();
     updateEventTimestamp();
-
+    Logger::getLogger()->info("ORDER MATCH - order id: " + getOrderIDString() + ", fill quantity: " + std::to_string(fill_quantity) 
+    + ", quantity: " + std::to_string(quantity) + ", leaves quantity: " + std::to_string(leaves_quantity));
     return order_status == OrderStatus::filled;
 };
 

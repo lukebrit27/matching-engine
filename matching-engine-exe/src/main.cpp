@@ -1,4 +1,6 @@
 #include <string>
+#include <chrono>
+#include <thread>
 #include "Book.hpp"
 #include "Order.hpp"
 #include "Logger.hpp"
@@ -6,9 +8,9 @@
 // #include "oatpp/web/server/api/ApiController.hpp"
 
 //NEXT TIME DEVVING NOTE
-// In Engine.hpp need to switch books to an unordered_map so can have constant time insertions and searches 
-// write submitOrder function for Engine.cpp
-// Clean up logging in Book.cpp/Order.cpp
+// integrate submitOrder with python
+// Cancel Order
+// Trade Object
 
 //CURRENT GOALS
 // Figure out how to write main in such a way that entites can begin submitting orders by loading some library into python
@@ -54,6 +56,12 @@ int main(int argc, char* argv[]){
 
     Engine engine = Engine();
     engine.start({"TEST1","TEST2","TEST3","TEST2"});
+    engine.submitOrder("TEST1", 2055, 3000, "limit", 'B'); 
+    engine.submitOrder("TEST1", 2055, 33000, "limit", 'B'); 
+    engine.submitOrder("TEST1", 2059, 400, "limit", 'B'); 
+    engine.submitOrder("TEST1", 2056, 1100, "limit", 'B'); 
     engine.submitOrder("TEST1", 2055, 2000, "limit", 'S'); 
+    
+    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
 
 };
