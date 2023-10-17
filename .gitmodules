@@ -1,0 +1,4 @@
+[submodule "matching-engine/external_projects/pybind11"]
+	path = matching-engine/external_projects/pybind11
+	url = https://github.com/pybind/pybind11.git
+	branch = stable
