@@ -8,9 +8,7 @@
 // #include "oatpp/web/server/api/ApiController.hpp"
 
 //NEXT TIME DEVVING NOTE
-// integrate submitOrder with python
-// Cancel Order
-// Trade Object
+// Figure out py->cpp conversions in order to start() and submitOrder functions working
 
 //CURRENT GOALS
 // Figure out how to write main in such a way that entites can begin submitting orders by loading some library into python
