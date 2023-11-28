@@ -8,7 +8,13 @@
 // #include "oatpp/web/server/api/ApiController.hpp"
 
 //NEXT TIME DEVVING NOTE
-// Figure out py->cpp conversions in order to start() and submitOrder functions working
+// Figure out prompts for AI traders
+// Figure out how AI traders will connect to the exchange
+// Figure out how to stream market events to AI traders
+
+// NEXT NEXT TIME DEVING NOTE
+// users should be able to add fields to orders (actually is this necessary for an mvp? could add this at a later time and write about it)
+// 
 
 //CURRENT GOALS
 // Figure out how to write main in such a way that entites can begin submitting orders by loading some library into python
