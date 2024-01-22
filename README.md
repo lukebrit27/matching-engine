@@ -9,7 +9,7 @@
 
 ## Requirements
 
-- C++11 compatible compiler
+- C++20 compatible compiler
 - CMake (version 3.12 or higher)
 - python3 
 
@@ -39,3 +39,12 @@ python3 -m venv .venv;
 Contributions are welcome! If you find any issues or have suggestions for improvement, please let me know.
 
 ## License
+
+## Additional Information
+
+### Single Binary Encoding
+
+The Single Binary Encoding (SBE) code was generated using https://github.com/OleksandrKvl/sbepp . Great tool that's very easy to install and use from the C++ developer perspective (in comparison to the offical RealLogic version). Recommend checking it out!
+
+Command used to generate the code:
+    - `sbeppc --output-dir test/ schemas/schemas.xml`

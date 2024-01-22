@@ -5,6 +5,8 @@
 #include "Order.hpp"
 #include "Logger.hpp"
 #include "Engine.hpp"
+#include <sbepp-gen/engine_schemas/messages/order_schema.hpp>
+
 // #include "oatpp/web/server/api/ApiController.hpp"
 
 //NEXT TIME DEVVING NOTE
@@ -66,6 +68,10 @@ int main(int argc, char* argv[]){
     engine.submitOrder("TEST1", 2056, 1100, "limit", 'B'); 
     engine.submitOrder("TEST1", 2055, 2000, "limit", 'S'); 
     
-    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+
+    // Order order = Order("TEST1", 2055, 3000, "limit", 'B');
+
+
+
 
 };
