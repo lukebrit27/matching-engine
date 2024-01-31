@@ -16,5 +16,6 @@ public:
     void start(std::vector<std::string> instruments);
     void addBook(std::string instrument_id);
     bool submitOrder(std::string instrument_id, unsigned int price, unsigned int quantity, std::string order_type, char side);
+    Book& getBook(std::string instrument_id);
 };
 #endif // ENGINE_H

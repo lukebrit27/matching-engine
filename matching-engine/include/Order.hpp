@@ -10,6 +10,7 @@
 #include <boost/uuid/uuid.hpp>            // uuid class
 #include <boost/uuid/uuid_generators.hpp> // generators
 #include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
+#include <sbepp-gen/engine_schemas/messages/order_schema.hpp> // sbe code
 
 enum class OrderType {limit, market};
 enum class OrderStatus {newo, cancelled, partiallyFilled, filled};
@@ -30,6 +31,9 @@ protected:
     void updateLeavesQuantity(unsigned int fill_quantity) const;
     void updateOrderStatus() const;
     void updateEventTimestamp() const;
+    engine_schemas::types::Side getSBESide() const;
+    engine_schemas::types::OrderStatus getSBEOrderStatus() const;
+    engine_schemas::types::OrderType getSBEOrderType() const;
 public:
     //constructor  
     template<typename T>
@@ -68,6 +72,7 @@ public:
     //functions
     void validateOrder();
     void validateSide();
+    uint64_t getEventTimestamp() const;
     std::string getInstrumentID() const;
     unsigned int getPrice() const;
     unsigned int getQuantity() const;
@@ -84,6 +89,7 @@ public:
     void printOrderDetails() const;  
     bool fillOrder(unsigned int fill_quantity) const;
     bool checkMatch(Order& order) const;
+    void publishEvent() const;
 };
 
 #endif //ORDER_H

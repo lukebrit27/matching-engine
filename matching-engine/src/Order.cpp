@@ -5,9 +5,11 @@
 #include "Order.hpp"
 #include "Logger.hpp"
 #include "CurrentTime.hpp"
+#include "utils.hpp"
 #include <boost/uuid/uuid.hpp>            // uuid class
 #include <boost/uuid/uuid_generators.hpp> // generators
 #include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
+#include "Stringification.hpp" // code to convert sbe message to string
 
 
 // Destructor
@@ -31,6 +33,10 @@ void Order::validateSide(){
         throw std::invalid_argument("invalid side");
 };
 
+uint64_t Order::getEventTimestamp() const{
+    return event_timestamp;
+};
+
 std::string Order::getInstrumentID() const{
     return instrument_id;
 };
@@ -49,6 +55,14 @@ unsigned int Order::getLeavesQuantity() const{
 
 char Order::getSide() const{
     return side;
+};
+
+engine_schemas::types::Side Order::getSBESide() const{
+    switch (side){
+        case 'B': return engine_schemas::types::Side::buy;
+        case 'S': return engine_schemas::types::Side::sell;
+        default: throw std::invalid_argument("Invalid side.");
+    };     
 };
 
 boost::uuids::uuid Order::getOrderID() const{
@@ -71,6 +85,14 @@ std::string Order::getOrderTypeString() const{
     };    
 };
 
+engine_schemas::types::OrderType Order::getSBEOrderType() const{
+    switch (order_type){
+        case OrderType::limit: return engine_schemas::types::OrderType::limit;
+        case OrderType::market: return engine_schemas::types::OrderType::market;
+        default: throw std::invalid_argument("Unrecognized Order Type");
+    };    
+};
+
 OrderStatus Order::getOrderStatus() const{
     return order_status;
 }; 
@@ -82,6 +104,16 @@ std::string Order::getOrderStatusString() const{
         case OrderStatus::partiallyFilled: return "partiallyFilled";
         case OrderStatus::filled: return "filled";
         default: return "";
+    };     
+};
+
+engine_schemas::types::OrderStatus Order::getSBEOrderStatus() const{
+    switch (order_status){
+        case OrderStatus::newo: return engine_schemas::types::OrderStatus::newo;
+        case OrderStatus::cancelled: return engine_schemas::types::OrderStatus::cancelled;
+        case OrderStatus::partiallyFilled: return engine_schemas::types::OrderStatus::partiallyFilled;
+        case OrderStatus::filled: return engine_schemas::types::OrderStatus::filled;
+        default: throw std::invalid_argument("Unrecognized Order Status");
     };     
 };
 
@@ -169,4 +201,30 @@ bool Order::checkMatch(Order& order) const{
         return price <= order.getPrice(); // Sort asks by lowest price first
     else
         return false;           
-};    
+};
+
+void Order::publishEvent() const{
+
+    // note: it's up to client to provide sufficient buffer
+    std::array<char, 1024> buf{};
+    auto m = sbepp::make_view<engine_schemas::messages::order_schema>(buf.data(), buf.size());
+    sbepp::fill_message_header(m);
+
+    m.eventTimestamp(event_timestamp);
+    m.price(price);
+    m.quantity(quantity);
+    m.leavesQuantity(leaves_quantity);
+    m.side(getSBESide());
+    m.orderType(getSBEOrderType()); 
+    m.orderStatus(getSBEOrderStatus());
+
+    auto oid = m.orderID();
+    utils::fillField<engine_schemas::types::STRING36<char>, ::engine_schemas::schema::types::STRING36> (oid, getOrderIDString());
+
+    auto sym = m.instrumentID();
+    utils::fillField<engine_schemas::types::STRING4<char>, ::engine_schemas::schema::types::STRING4> (sym, instrument_id);
+
+    auto res = sbepp::visit<to_string_visitor>(m);
+
+    Logger::getLogger()->info(fmt::format("{}", res.str())); // TEMP - TO-DO switch to network pub/sub framework once added
+}

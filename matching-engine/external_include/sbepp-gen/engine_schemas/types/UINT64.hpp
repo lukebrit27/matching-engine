@@ -18,12 +18,12 @@ namespace detail
 namespace types
 {
 
-class type_3
-    : public ::sbepp::detail::required_base<::std::uint32_t, type_3>
+class type_4
+    : public ::sbepp::detail::required_base<::std::uint64_t, type_4>
 {
 public:
     using ::sbepp::detail::required_base<
-        ::std::uint32_t, type_3>::required_base;
+        ::std::uint64_t, type_4>::required_base;
 
     static constexpr value_type min_value() noexcept
     {
@@ -32,7 +32,7 @@ public:
 
     static constexpr value_type max_value() noexcept
     {
-        return {4294967294};
+        return {18446744073709551614UL};
     }
 };
 
@@ -41,7 +41,7 @@ public:
 
 namespace types
 {
-using UINT32 = ::engine_schemas::detail::types::type_3;
+using UINT64 = ::engine_schemas::detail::types::type_4;
 } // namespace types
 } // namespace engine_schemas
 
@@ -49,12 +49,12 @@ namespace sbepp
 {
 
 template<>
-class type_traits<::engine_schemas::schema::types::UINT32>
+class type_traits<::engine_schemas::schema::types::UINT64>
 {
 public:
     static constexpr const char* name() noexcept
     {
-        return "UINT32";
+        return "UINT64";
     }
 
     static constexpr const char* description() noexcept
@@ -67,7 +67,7 @@ public:
         return ::sbepp::field_presence::required;
     }
 
-    using primitive_type = ::std::uint32_t;
+    using primitive_type = ::std::uint64_t;
     
     static constexpr primitive_type min_value() noexcept
     {
@@ -103,7 +103,7 @@ public:
     }
 
     
-    using value_type = ::engine_schemas::types::UINT32;
+    using value_type = ::engine_schemas::types::UINT64;
 };
 
 }  // namespace sbepp

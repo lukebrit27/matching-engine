@@ -129,7 +129,7 @@ public:
 
 
 template<typename Byte>
-class composite_2 : public ::sbepp::detail::composite_base<Byte>
+class composite_1 : public ::sbepp::detail::composite_base<Byte>
 {
 public:
     using ::sbepp::detail::composite_base<Byte>::composite_base;
@@ -251,7 +251,7 @@ namespace types
 {
 
     template<typename Byte>
-    using messageHeader = ::engine_schemas::detail::types::composite_2<Byte>;
+    using messageHeader = ::engine_schemas::detail::types::composite_1<Byte>;
 
 } // namespace types
 } // namespace engine_schemas

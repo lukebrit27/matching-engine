@@ -39,6 +39,7 @@ public:
     void submitOrder(unsigned int price, unsigned int quantity, T order_type, char side){
         std::shared_ptr<Order> order = std::make_shared<Order>(instrument_id, price, quantity, order_type, side);
         Logger::getLogger()->info("NEW ORDER SUBMITTED - " + order->getOrderDetailsString());
+        order->publishEvent(); // pub sbe data for new order
         bool filled = match(*order);
         if (!filled)
             queue(*order);
@@ -48,7 +49,9 @@ public:
     // functions   
     void cancelOrder();
     std::string getInstrumentID() const;
-    std::vector<Order*> getTopOfBook(unsigned int level);
+    Order getBestBid();
+    Order getBestAsk();
+    // std::vector<Order*> getTopOfBook(unsigned int level);
 };
 
 #endif // BOOK_H

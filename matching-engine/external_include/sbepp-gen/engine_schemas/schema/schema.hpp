@@ -16,8 +16,10 @@ namespace schema
 {
 struct enum_1
 {
-    struct limit{};
-    struct market{};
+    struct newo{};
+    struct cancelled{};
+    struct partiallyFilled{};
+    struct filled{};
 
 };
 struct enum_2
@@ -28,20 +30,12 @@ struct enum_2
 };
 struct enum_3
 {
-    struct newo{};
-    struct cancelled{};
-    struct partiallyFilled{};
-    struct filled{};
+    struct limit{};
+    struct market{};
 
 };
 struct type_1{};
 struct type_2{};
-struct composite_1
-{
-using length = ::engine_schemas::detail::schema::type_1;
-using varData = ::engine_schemas::detail::schema::type_2;
-
-};
 struct type_3{};
 struct type_4{};
 struct type_5{};
@@ -50,7 +44,7 @@ struct type_7{};
 struct type_8{};
 struct type_9{};
 struct type_10{};
-struct composite_2
+struct composite_1
 {
 using blockLength = ::engine_schemas::detail::schema::type_5;
 using templateId = ::engine_schemas::detail::schema::type_6;
@@ -77,13 +71,14 @@ struct message_1
 
 struct types_0
 {
-    using OrderType = ::engine_schemas::detail::schema::enum_1;
+    using OrderStatus = ::engine_schemas::detail::schema::enum_1;
     using Side = ::engine_schemas::detail::schema::enum_2;
-    using OrderStatus = ::engine_schemas::detail::schema::enum_3;
-    using VARSTRING8 = ::engine_schemas::detail::schema::composite_1;
-    using STRING16 = ::engine_schemas::detail::schema::type_3;
-    using UINT32 = ::engine_schemas::detail::schema::type_4;
-    using messageHeader = ::engine_schemas::detail::schema::composite_2;
+    using OrderType = ::engine_schemas::detail::schema::enum_3;
+    using STRING36 = ::engine_schemas::detail::schema::type_1;
+    using STRING4 = ::engine_schemas::detail::schema::type_2;
+    using UINT32 = ::engine_schemas::detail::schema::type_3;
+    using UINT64 = ::engine_schemas::detail::schema::type_4;
+    using messageHeader = ::engine_schemas::detail::schema::composite_1;
 
 };
 
@@ -107,7 +102,7 @@ namespace detail
 namespace types
 {
 template<typename Byte>
-class composite_2;
+class composite_1;
 } // namespace types
 } // namespace detail
 } // namespace engine_schemas
@@ -151,7 +146,7 @@ public:
 
     
     template<typename Byte>
-    using header_type = ::engine_schemas::detail::types::composite_2<Byte>;
+    using header_type = ::engine_schemas::detail::types::composite_1<Byte>;
 
     using header_type_tag = ::engine_schemas::schema::types::messageHeader;
 };

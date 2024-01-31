@@ -11,15 +11,10 @@
             <type name="numVarDataFields" primitiveType="uint16" />
         </composite>
 
+        <type name="UINT64" primitiveType="uint64"/>
         <type name="UINT32" primitiveType="uint32"/>
-        <type name="STRING16" primitiveType="char" length="16" />
-
-
-        <composite name="VARSTRING8">  <!--max char length 254-->
-            <type name="length" primitiveType="uint8"/>
-            <type name="varData" primitiveType="uint8" length="0" characterEncoding="UTF-8"/>
-        </composite>
-
+        <type name="STRING36" primitiveType="char" length="36" />
+        <type name="STRING4" primitiveType="char" length="4" />
  
         <enum name="Side" encodingType="char">
             <validValue name="buy">B</validValue>
@@ -40,15 +35,14 @@
     </types>
  
     <sbe:message name="order_schema" id="1">
-        <field name="eventTimestamp" id="1" type="UINT32"/>
+        <field name="eventTimestamp" id="1" type="UINT64"/>
         <field name="price" id="2" type="UINT32"/>
         <field name="quantity" id="3" type="UINT32"/>
         <field name="leavesQuantity" id="4" type="UINT32"/>
         <field name="side" id="5" type="Side"/>
-        <field name="orderID" id="6" type="STRING16"/>
+        <field name="orderID" id="6" type="STRING36" semanticType="String"/>
         <field name="orderType" id="7" type="OrderType"/>
         <field name="orderStatus" id="8" type="OrderStatus"/>
-
-        <data name="instrumentID" id="9" type="VARSTRING8"/>
+        <field name="instrumentID" id="9" type="STRING4" semanticType="String"/>
     </sbe:message>
 </sbe:messageSchema>

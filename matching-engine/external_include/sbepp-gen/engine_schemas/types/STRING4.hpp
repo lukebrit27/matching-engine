@@ -19,8 +19,8 @@ namespace types
 {
 
 template<typename Byte>
-using type_3 = ::sbepp::detail::static_array_ref<
-    Byte, char, 16>;
+using type_2 = ::sbepp::detail::static_array_ref<
+    Byte, char, 4>;
 
 } // namespace types
 } // namespace detail
@@ -29,7 +29,7 @@ namespace types
 {
 
     template<typename Byte>
-    using STRING16 = ::engine_schemas::detail::types::type_3<Byte>;
+    using STRING4 = ::engine_schemas::detail::types::type_2<Byte>;
 
 } // namespace types
 } // namespace engine_schemas
@@ -38,12 +38,12 @@ namespace sbepp
 {
 
 template<>
-class type_traits<::engine_schemas::schema::types::STRING16>
+class type_traits<::engine_schemas::schema::types::STRING4>
 {
 public:
     static constexpr const char* name() noexcept
     {
-        return "STRING16";
+        return "STRING4";
     }
 
     static constexpr const char* description() noexcept
@@ -61,7 +61,7 @@ public:
     
     static constexpr length_t length() noexcept
     {
-        return 16;
+        return 4;
     }
     
     
@@ -84,7 +84,7 @@ public:
     
     
     template<typename Byte>
-    using value_type = ::engine_schemas::types::STRING16<Byte>;
+    using value_type = ::engine_schemas::types::STRING4<Byte>;
 
 };
 

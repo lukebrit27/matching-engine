@@ -18,7 +18,7 @@ namespace detail
 namespace types
 {
 
-enum class enum_1 : ::std::uint8_t
+enum class enum_3 : ::std::uint8_t
 {
     limit = 0,
     market = 1
@@ -28,15 +28,15 @@ enum class enum_1 : ::std::uint8_t
 inline SBEPP_CPP14_CONSTEXPR const char*
     tag_invoke(
         ::sbepp::detail::enum_to_str_tag,
-        enum_1 e) noexcept
+        enum_3 e) noexcept
 {
     switch(e)
     {
     
-    case enum_1::limit:
+    case enum_3::limit:
         return "limit";
 
-    case enum_1::market:
+    case enum_3::market:
         return "market";
 
     default:
@@ -50,7 +50,7 @@ inline SBEPP_CPP14_CONSTEXPR const char*
 
 namespace types
 {
-using OrderType = ::engine_schemas::detail::types::enum_1;
+using OrderType = ::engine_schemas::detail::types::enum_3;
 } // namespace types
 } // namespace engine_schemas
 

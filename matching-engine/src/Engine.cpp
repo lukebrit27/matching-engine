@@ -64,3 +64,7 @@ bool Engine::submitOrder(std::string instrument_id, unsigned int price, unsigned
 
     return success;
 };
+
+Book& Engine::getBook(std::string instrument_id){
+    return books.find(instrument_id)->second;
+};

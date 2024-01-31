@@ -102,7 +102,9 @@ void Book::matchBook(Order& new_order, std::multiset<Order, compareOrders>& orde
         // if orders match fill the orders
         if(is_match){
             book_it->fillOrder(new_order.getQuantity());
+            book_it->publishEvent();
             new_order.fillOrder(book_it->getQuantity());
+            new_order.publishEvent();
         };
 
         // if current order filled, remove from orderbook
@@ -130,7 +132,9 @@ void Book::matchMarket(Order& new_order, std::vector<Order>& market_orders){
         // if orders match fill the orders
         if(is_match){
             mkt_it->fillOrder(new_order.getQuantity());
+            mkt_it->publishEvent();
             new_order.fillOrder(mkt_it->getQuantity());
+            new_order.publishEvent();
         };
 
         // if current order filled, remove from orderbook
@@ -153,6 +157,20 @@ std::string Book::getInstrumentID() const{
     return instrument_id;
 };
 
-// std::vector<Order*> Book::getTopOfBook(int level){
+Order Book::getBestBid(){
+    if (!bids.empty()) {
+        return *bids.begin();
+    }
+    else{
+        throw std::runtime_error("No bids present in the book");
+    }
+};
 
-// };
+Order Book::getBestAsk(){
+    if (!asks.empty()) {
+        return *asks.begin();
+    }
+    else{
+        throw std::runtime_error("No asks present in the book");
+    }
+};

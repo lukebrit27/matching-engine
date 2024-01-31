@@ -5,18 +5,24 @@
 #include "Order.hpp"
 #include "Logger.hpp"
 #include "Engine.hpp"
+#include "Stringification.hpp"
 #include <sbepp-gen/engine_schemas/messages/order_schema.hpp>
 
 // #include "oatpp/web/server/api/ApiController.hpp"
 
 //NEXT TIME DEVVING NOTE
+// Embed sbe logic into Order class
+
+// FUTURE DEVVING 
+// Fix price field. Currently int and there's no way to know where to place the decimal place.
+// In engine_schemas.xml file, change 
 // Figure out prompts for AI traders
 // Figure out how AI traders will connect to the exchange
 // Figure out how to stream market events to AI traders
+// Figure out external_project dependencies. Make sure project can build and run on diff computer (can test this within docker container)
 
-// NEXT NEXT TIME DEVING NOTE
+// NICE TO HAVE IDEAS
 // users should be able to add fields to orders (actually is this necessary for an mvp? could add this at a later time and write about it)
-// 
 
 //CURRENT GOALS
 // Figure out how to write main in such a way that entites can begin submitting orders by loading some library into python
@@ -51,6 +57,18 @@
 // multi-threading
 // network considerations assuming a large trader base of bots (managing connections tcp/multicast, subscriptions etc. credentials to connect to the exchange?)
 
+template<typename T, typename Tag>
+void fillField(T& field, const std::string& inputString){
+    unsigned int length = std::min(sbepp::type_traits<Tag>::length(), inputString.length());
+    if (length == 0){
+        return;
+    };
+    // Copy the string content to the field
+    for (int i = 0; i < length; ++i) {
+        field[i] = inputString[i];
+    };
+}
+
 int main(int argc, char* argv[]){
 
 //    Book orderbook = Book("TEST");
@@ -61,17 +79,15 @@ int main(int argc, char* argv[]){
 //    orderbook.submitOrder(2055, 2000, OrderType::limit, 'S'); 
 
     Engine engine = Engine();
-    engine.start({"TEST1","TEST2","TEST3","TEST2"});
-    engine.submitOrder("TEST1", 2055, 3000, "limit", 'B'); 
-    engine.submitOrder("TEST1", 2055, 33000, "limit", 'B'); 
-    engine.submitOrder("TEST1", 2059, 400, "limit", 'B'); 
-    engine.submitOrder("TEST1", 2056, 1100, "limit", 'B'); 
-    engine.submitOrder("TEST1", 2055, 2000, "limit", 'S'); 
+    engine.start({"TES1","TES2","TES3","TES2"});
+    engine.submitOrder("TES1", 2055, 3000, "limit", 'B'); 
+    engine.submitOrder("TES1", 2055, 33000, "limit", 'B'); 
+    engine.submitOrder("TES1", 2059, 400, "limit", 'B'); 
+    engine.submitOrder("TES1", 2056, 1100, "limit", 'B'); 
+    engine.submitOrder("TES1", 2055, 2000, "limit", 'S'); 
     
 
-    // Order order = Order("TEST1", 2055, 3000, "limit", 'B');
-
-
-
+    Book& book = engine.getBook("TES1");
+    Order best_bid = book.getBestBid();
 
 };

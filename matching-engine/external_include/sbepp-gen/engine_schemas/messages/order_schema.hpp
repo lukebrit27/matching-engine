@@ -10,12 +10,13 @@ SBEPP_WARNINGS_OFF();
 
 #include "../schema/schema.hpp"
 #include "../types/OrderStatus.hpp"
+#include "../types/STRING4.hpp"
 #include "../types/OrderType.hpp"
-#include "../types/STRING16.hpp"
 #include "../types/Side.hpp"
 #include "../types/messageHeader.hpp"
-#include "../types/VARSTRING8.hpp"
+#include "../types/STRING36.hpp"
 #include "../types/UINT32.hpp"
+#include "../types/UINT64.hpp"
 
 
 namespace engine_schemas
@@ -37,33 +38,20 @@ public:
     using ::sbepp::detail::message_base<
         Byte, ::engine_schemas::types::messageHeader<Byte>>::operator();
 
-    SBEPP_CPP20_CONSTEXPR ::engine_schemas::types::UINT32 eventTimestamp() const noexcept
+    SBEPP_CPP20_CONSTEXPR ::engine_schemas::types::UINT64 eventTimestamp() const noexcept
     {
         return ::sbepp::detail::get_value<
-            ::engine_schemas::types::UINT32, ::engine_schemas::types::UINT32::value_type, ::sbepp::endian::little>(*this, 12);
+            ::engine_schemas::types::UINT64, ::engine_schemas::types::UINT64::value_type, ::sbepp::endian::little>(*this, 12);
     }
 
     template<
         typename T = void,
         typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
-    SBEPP_CPP20_CONSTEXPR void eventTimestamp(::engine_schemas::types::UINT32 v) const noexcept
+    SBEPP_CPP20_CONSTEXPR void eventTimestamp(::engine_schemas::types::UINT64 v) const noexcept
     {
         ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 12, v.value());
     }
     SBEPP_CPP20_CONSTEXPR ::engine_schemas::types::UINT32 price() const noexcept
-    {
-        return ::sbepp::detail::get_value<
-            ::engine_schemas::types::UINT32, ::engine_schemas::types::UINT32::value_type, ::sbepp::endian::little>(*this, 16);
-    }
-
-    template<
-        typename T = void,
-        typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
-    SBEPP_CPP20_CONSTEXPR void price(::engine_schemas::types::UINT32 v) const noexcept
-    {
-        ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 16, v.value());
-    }
-    SBEPP_CPP20_CONSTEXPR ::engine_schemas::types::UINT32 quantity() const noexcept
     {
         return ::sbepp::detail::get_value<
             ::engine_schemas::types::UINT32, ::engine_schemas::types::UINT32::value_type, ::sbepp::endian::little>(*this, 20);
@@ -72,11 +60,11 @@ public:
     template<
         typename T = void,
         typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
-    SBEPP_CPP20_CONSTEXPR void quantity(::engine_schemas::types::UINT32 v) const noexcept
+    SBEPP_CPP20_CONSTEXPR void price(::engine_schemas::types::UINT32 v) const noexcept
     {
         ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 20, v.value());
     }
-    SBEPP_CPP20_CONSTEXPR ::engine_schemas::types::UINT32 leavesQuantity() const noexcept
+    SBEPP_CPP20_CONSTEXPR ::engine_schemas::types::UINT32 quantity() const noexcept
     {
         return ::sbepp::detail::get_value<
             ::engine_schemas::types::UINT32, ::engine_schemas::types::UINT32::value_type, ::sbepp::endian::little>(*this, 24);
@@ -85,14 +73,27 @@ public:
     template<
         typename T = void,
         typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
-    SBEPP_CPP20_CONSTEXPR void leavesQuantity(::engine_schemas::types::UINT32 v) const noexcept
+    SBEPP_CPP20_CONSTEXPR void quantity(::engine_schemas::types::UINT32 v) const noexcept
     {
         ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 24, v.value());
+    }
+    SBEPP_CPP20_CONSTEXPR ::engine_schemas::types::UINT32 leavesQuantity() const noexcept
+    {
+        return ::sbepp::detail::get_value<
+            ::engine_schemas::types::UINT32, ::engine_schemas::types::UINT32::value_type, ::sbepp::endian::little>(*this, 28);
+    }
+
+    template<
+        typename T = void,
+        typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
+    SBEPP_CPP20_CONSTEXPR void leavesQuantity(::engine_schemas::types::UINT32 v) const noexcept
+    {
+        ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 28, v.value());
     }
     SBEPP_CPP20_CONSTEXPR ::engine_schemas::types::Side side() const noexcept
     {
         return ::sbepp::detail::get_value<
-            ::engine_schemas::types::Side, ::engine_schemas::types::Side, ::sbepp::endian::little>(*this, 28);
+            ::engine_schemas::types::Side, ::engine_schemas::types::Side, ::sbepp::endian::little>(*this, 32);
     }
 
     template<
@@ -100,17 +101,17 @@ public:
         typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
     SBEPP_CPP20_CONSTEXPR void side(::engine_schemas::types::Side v) const noexcept
     {
-        ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 28, v);
+        ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 32, v);
     }
-    constexpr ::engine_schemas::types::STRING16<Byte> orderID() const noexcept
+    constexpr ::engine_schemas::types::STRING36<Byte> orderID() const noexcept
     {
-        return ::sbepp::detail::get_static_field_view<::engine_schemas::types::STRING16<Byte>>(
-            *this, 29);
+        return ::sbepp::detail::get_static_field_view<::engine_schemas::types::STRING36<Byte>>(
+            *this, 33);
     }
     SBEPP_CPP20_CONSTEXPR ::engine_schemas::types::OrderType orderType() const noexcept
     {
         return ::sbepp::detail::get_value<
-            ::engine_schemas::types::OrderType, ::engine_schemas::types::OrderType, ::sbepp::endian::little>(*this, 45);
+            ::engine_schemas::types::OrderType, ::engine_schemas::types::OrderType, ::sbepp::endian::little>(*this, 69);
     }
 
     template<
@@ -118,12 +119,12 @@ public:
         typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
     SBEPP_CPP20_CONSTEXPR void orderType(::engine_schemas::types::OrderType v) const noexcept
     {
-        ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 45, v);
+        ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 69, v);
     }
     SBEPP_CPP20_CONSTEXPR ::engine_schemas::types::OrderStatus orderStatus() const noexcept
     {
         return ::sbepp::detail::get_value<
-            ::engine_schemas::types::OrderStatus, ::engine_schemas::types::OrderStatus, ::sbepp::endian::little>(*this, 46);
+            ::engine_schemas::types::OrderStatus, ::engine_schemas::types::OrderStatus, ::sbepp::endian::little>(*this, 70);
     }
 
     template<
@@ -131,15 +132,12 @@ public:
         typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
     SBEPP_CPP20_CONSTEXPR void orderStatus(::engine_schemas::types::OrderStatus v) const noexcept
     {
-        ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 46, v);
+        ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 70, v);
     }
-
-    constexpr ::sbepp::detail::dynamic_array_ref<
-    Byte, ::std::uint8_t, ::engine_schemas::detail::types::type_1, ::sbepp::endian::little> instrumentID() const noexcept
+    constexpr ::engine_schemas::types::STRING4<Byte> instrumentID() const noexcept
     {
-        return ::sbepp::detail::get_first_dynamic_field_view<::sbepp::detail::dynamic_array_ref<
-    Byte, ::std::uint8_t, ::engine_schemas::detail::types::type_1, ::sbepp::endian::little>>(
-            *this);
+        return ::sbepp::detail::get_static_field_view<::engine_schemas::types::STRING4<Byte>>(
+            *this, 71);
     }
 
     template<
@@ -148,9 +146,9 @@ public:
             Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
     SBEPP_CPP20_CONSTEXPR auto
         eventTimestamp(Cursor&& c) const noexcept
-            -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::UINT32>
+            -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::UINT64>
     {
-        return c.template get_value<::engine_schemas::types::UINT32, ::std::uint32_t, ::sbepp::endian::little>(
+        return c.template get_value<::engine_schemas::types::UINT64, ::std::uint64_t, ::sbepp::endian::little>(
             *this, 0, 12);
     }
 
@@ -159,7 +157,7 @@ public:
         typename = ::sbepp::detail::enable_if_cursor_writeable_t<
             Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
     SBEPP_CPP20_CONSTEXPR void eventTimestamp(
-        ::engine_schemas::types::UINT32 v, Cursor&& c) const noexcept
+        ::engine_schemas::types::UINT64 v, Cursor&& c) const noexcept
     {
         return c.template set_value<::sbepp::endian::little>(
             *this, 0, 12, v.value());
@@ -174,29 +172,6 @@ public:
             -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::UINT32>
     {
         return c.template get_value<::engine_schemas::types::UINT32, ::std::uint32_t, ::sbepp::endian::little>(
-            *this, 0, 16);
-    }
-
-    template<
-        typename Cursor,
-        typename = ::sbepp::detail::enable_if_cursor_writeable_t<
-            Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
-    SBEPP_CPP20_CONSTEXPR void price(
-        ::engine_schemas::types::UINT32 v, Cursor&& c) const noexcept
-    {
-        return c.template set_value<::sbepp::endian::little>(
-            *this, 0, 16, v.value());
-    }
-
-    template<
-        typename Cursor,
-        typename = ::sbepp::detail::enable_if_cursor_compatible_t<
-            Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
-    SBEPP_CPP20_CONSTEXPR auto
-        quantity(Cursor&& c) const noexcept
-            -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::UINT32>
-    {
-        return c.template get_value<::engine_schemas::types::UINT32, ::std::uint32_t, ::sbepp::endian::little>(
             *this, 0, 20);
     }
 
@@ -204,7 +179,7 @@ public:
         typename Cursor,
         typename = ::sbepp::detail::enable_if_cursor_writeable_t<
             Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
-    SBEPP_CPP20_CONSTEXPR void quantity(
+    SBEPP_CPP20_CONSTEXPR void price(
         ::engine_schemas::types::UINT32 v, Cursor&& c) const noexcept
     {
         return c.template set_value<::sbepp::endian::little>(
@@ -216,7 +191,7 @@ public:
         typename = ::sbepp::detail::enable_if_cursor_compatible_t<
             Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
     SBEPP_CPP20_CONSTEXPR auto
-        leavesQuantity(Cursor&& c) const noexcept
+        quantity(Cursor&& c) const noexcept
             -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::UINT32>
     {
         return c.template get_value<::engine_schemas::types::UINT32, ::std::uint32_t, ::sbepp::endian::little>(
@@ -227,7 +202,7 @@ public:
         typename Cursor,
         typename = ::sbepp::detail::enable_if_cursor_writeable_t<
             Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
-    SBEPP_CPP20_CONSTEXPR void leavesQuantity(
+    SBEPP_CPP20_CONSTEXPR void quantity(
         ::engine_schemas::types::UINT32 v, Cursor&& c) const noexcept
     {
         return c.template set_value<::sbepp::endian::little>(
@@ -239,11 +214,34 @@ public:
         typename = ::sbepp::detail::enable_if_cursor_compatible_t<
             Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
     SBEPP_CPP20_CONSTEXPR auto
+        leavesQuantity(Cursor&& c) const noexcept
+            -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::UINT32>
+    {
+        return c.template get_value<::engine_schemas::types::UINT32, ::std::uint32_t, ::sbepp::endian::little>(
+            *this, 0, 28);
+    }
+
+    template<
+        typename Cursor,
+        typename = ::sbepp::detail::enable_if_cursor_writeable_t<
+            Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
+    SBEPP_CPP20_CONSTEXPR void leavesQuantity(
+        ::engine_schemas::types::UINT32 v, Cursor&& c) const noexcept
+    {
+        return c.template set_value<::sbepp::endian::little>(
+            *this, 0, 28, v.value());
+    }
+
+    template<
+        typename Cursor,
+        typename = ::sbepp::detail::enable_if_cursor_compatible_t<
+            Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
+    SBEPP_CPP20_CONSTEXPR auto
         side(Cursor&& c) const noexcept
         -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::Side>
     {
         return c.template get_value<::engine_schemas::types::Side, ::engine_schemas::types::Side, ::sbepp::endian::little>(
-            *this, 0, 28);
+            *this, 0, 32);
     }
 
     template<
@@ -254,7 +252,7 @@ public:
         ::engine_schemas::types::Side v, Cursor&& c) const noexcept
     {
         return c.template set_value<::sbepp::endian::little>(
-            *this, 0, 28, v);
+            *this, 0, 32, v);
     }
 
     template<
@@ -263,12 +261,12 @@ public:
             Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
     SBEPP_CPP20_CONSTEXPR auto
         orderID(Cursor&& c) const noexcept
-        -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::STRING16<
+        -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::STRING36<
             ::sbepp::detail::cursor_byte_type_t<Cursor>>>
     {
-        return c.template get_static_field_view<::engine_schemas::types::STRING16<
+        return c.template get_static_field_view<::engine_schemas::types::STRING36<
             ::sbepp::detail::cursor_byte_type_t<Cursor>>>(
-                *this, 0, 29);
+                *this, 0, 33);
     }
 
     template<
@@ -280,7 +278,7 @@ public:
         -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::OrderType>
     {
         return c.template get_value<::engine_schemas::types::OrderType, ::engine_schemas::types::OrderType, ::sbepp::endian::little>(
-            *this, 0, 45);
+            *this, 0, 69);
     }
 
     template<
@@ -291,43 +289,42 @@ public:
         ::engine_schemas::types::OrderType v, Cursor&& c) const noexcept
     {
         return c.template set_value<::sbepp::endian::little>(
-            *this, 0, 45, v);
+            *this, 0, 69, v);
     }
 
     template<
         typename Cursor,
         typename = ::sbepp::detail::enable_if_cursor_compatible_t<
             Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
-    SBEPP_CPP20_CONSTEXPR auto orderStatus(Cursor&& c) const noexcept
+    SBEPP_CPP20_CONSTEXPR auto
+        orderStatus(Cursor&& c) const noexcept
         -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::OrderStatus>
     {
-        return c.template get_last_value<::engine_schemas::types::OrderStatus, ::engine_schemas::types::OrderStatus, ::sbepp::endian::little>(
-            *this, 0, 46);
+        return c.template get_value<::engine_schemas::types::OrderStatus, ::engine_schemas::types::OrderStatus, ::sbepp::endian::little>(
+            *this, 0, 70);
     }
 
     template<
         typename Cursor,
-        typename = ::sbepp::detail::enable_if_cursor_writeable_t<Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
-    SBEPP_CPP20_CONSTEXPR void orderStatus(::engine_schemas::types::OrderStatus v, Cursor&& c) const noexcept
+        typename = ::sbepp::detail::enable_if_cursor_writeable_t<
+            Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
+    SBEPP_CPP20_CONSTEXPR void orderStatus(
+        ::engine_schemas::types::OrderStatus v, Cursor&& c) const noexcept
     {
-        return c.template set_last_value<::sbepp::endian::little>(*this, 0, 46, v);
+        return c.template set_value<::sbepp::endian::little>(
+            *this, 0, 70, v);
     }
 
     template<
         typename Cursor,
         typename = ::sbepp::detail::enable_if_cursor_compatible_t<
             Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
-    constexpr auto instrumentID(Cursor&& c) const noexcept
+    SBEPP_CPP20_CONSTEXPR auto instrumentID(Cursor&& c) const noexcept
         -> ::sbepp::detail::cursor_result_type_t<Cursor,
-            ::sbepp::detail::dynamic_array_ref<
-                ::sbepp::detail::cursor_byte_type_t<Cursor>,
-                    ::std::uint8_t, ::engine_schemas::detail::types::type_1, ::sbepp::endian::little>>
+            ::engine_schemas::types::STRING4<::sbepp::detail::cursor_byte_type_t<Cursor>>>
     {
-        return c.template get_first_data_view<
-            ::sbepp::detail::dynamic_array_ref<
-                ::sbepp::detail::cursor_byte_type_t<Cursor>,
-                    ::std::uint8_t, ::engine_schemas::detail::types::type_1, ::sbepp::endian::little>>(
-                        *this);
+        return c.template get_last_static_field_view<::engine_schemas::types::STRING4<::sbepp::detail::cursor_byte_type_t<Cursor>>>(
+            *this, 0, 71);
     }
 
 
@@ -341,10 +338,10 @@ public:
         header.schemaId({1});
         header.templateId({1});
         header.version({0});
-        header.blockLength({35});
+        header.blockLength({63});
         header.numGroups({0});
 
-        header.numVarDataFields({1});
+        header.numVarDataFields({0});
 
         return header;
     }
@@ -353,9 +350,7 @@ public:
     SBEPP_CPP20_CONSTEXPR std::size_t operator()(
         ::sbepp::detail::size_bytes_tag) const noexcept
     {
-        const auto last = instrumentID();
-        return ::sbepp::addressof(last) + ::sbepp::size_bytes(last)
-               - (*this)(::sbepp::detail::addressof_tag{});
+        return 12 + (*this)(::sbepp::detail::get_block_length_tag{});
     }
 
 
@@ -381,7 +376,7 @@ public:
 ||v.template on_field(this->orderID(c), ::engine_schemas::schema::messages::order_schema::orderID{})
 ||v.template on_field(this->orderType(c), ::engine_schemas::schema::messages::order_schema::orderType{})
 ||v.template on_field(this->orderStatus(c), ::engine_schemas::schema::messages::order_schema::orderStatus{})
-||v.template on_data(this->instrumentID(c), ::engine_schemas::schema::messages::order_schema::instrumentID{});
+||v.template on_field(this->instrumentID(c), ::engine_schemas::schema::messages::order_schema::instrumentID{});
     }
 
 };
@@ -422,7 +417,7 @@ public:
 
     static constexpr block_length_t block_length() noexcept
     {
-        return 35;
+        return 63;
     }
 
     static constexpr const char* semantic_type() noexcept
@@ -478,8 +473,8 @@ public:
     }
 
     
-    using value_type = ::engine_schemas::types::UINT32;
-    using value_type_tag = ::engine_schemas::schema::types::UINT32;
+    using value_type = ::engine_schemas::types::UINT64;
+    using value_type_tag = ::engine_schemas::schema::types::UINT64;
 };
 
 template<>
@@ -508,7 +503,7 @@ public:
     
     static constexpr offset_t offset() noexcept
     {
-        return {4};
+        return {8};
     }
 
 
@@ -548,7 +543,7 @@ public:
     
     static constexpr offset_t offset() noexcept
     {
-        return {8};
+        return {12};
     }
 
 
@@ -588,7 +583,7 @@ public:
     
     static constexpr offset_t offset() noexcept
     {
-        return {12};
+        return {16};
     }
 
 
@@ -628,7 +623,7 @@ public:
     
     static constexpr offset_t offset() noexcept
     {
-        return {16};
+        return {20};
     }
 
 
@@ -668,7 +663,7 @@ public:
     
     static constexpr offset_t offset() noexcept
     {
-        return {17};
+        return {21};
     }
 
 
@@ -680,9 +675,9 @@ public:
     
     
     template<typename Byte>
-    using value_type = ::engine_schemas::types::STRING16<Byte>;
+    using value_type = ::engine_schemas::types::STRING36<Byte>;
 
-    using value_type_tag = ::engine_schemas::schema::types::STRING16;
+    using value_type_tag = ::engine_schemas::schema::types::STRING36;
 };
 
 template<>
@@ -711,7 +706,7 @@ public:
     
     static constexpr offset_t offset() noexcept
     {
-        return {33};
+        return {57};
     }
 
 
@@ -751,7 +746,7 @@ public:
     
     static constexpr offset_t offset() noexcept
     {
-        return {34};
+        return {58};
     }
 
 
@@ -766,7 +761,7 @@ public:
 };
 
 template<>
-class data_traits<::engine_schemas::schema::messages::order_schema::instrumentID>
+class field_traits<::engine_schemas::schema::messages::order_schema::instrumentID>
 {
 public:
     static constexpr const char* name() noexcept
@@ -784,18 +779,28 @@ public:
         return "";
     }
 
+    static constexpr field_presence presence() noexcept
+    {
+        return ::sbepp::field_presence::required;
+    }
+    
+    static constexpr offset_t offset() noexcept
+    {
+        return {59};
+    }
+
+
     static constexpr version_t since_version() noexcept
     {
         return 0;
     }
 
     
+    
     template<typename Byte>
-    using value_type = ::sbepp::detail::dynamic_array_ref<
-    Byte, ::std::uint8_t, ::engine_schemas::detail::types::type_1, ::sbepp::endian::little>;
+    using value_type = ::engine_schemas::types::STRING4<Byte>;
 
-    using length_type = ::engine_schemas::detail::types::type_1;
-    using length_type_tag = ::engine_schemas::schema::types::VARSTRING8::length;
+    using value_type_tag = ::engine_schemas::schema::types::STRING4;
 };
 
 }  // namespace sbepp

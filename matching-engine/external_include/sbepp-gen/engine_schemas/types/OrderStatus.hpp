@@ -18,7 +18,7 @@ namespace detail
 namespace types
 {
 
-enum class enum_3 : ::std::uint8_t
+enum class enum_1 : ::std::uint8_t
 {
     newo = 0,
     cancelled = 1,
@@ -30,21 +30,21 @@ enum class enum_3 : ::std::uint8_t
 inline SBEPP_CPP14_CONSTEXPR const char*
     tag_invoke(
         ::sbepp::detail::enum_to_str_tag,
-        enum_3 e) noexcept
+        enum_1 e) noexcept
 {
     switch(e)
     {
     
-    case enum_3::newo:
+    case enum_1::newo:
         return "newo";
 
-    case enum_3::cancelled:
+    case enum_1::cancelled:
         return "cancelled";
 
-    case enum_3::partiallyFilled:
+    case enum_1::partiallyFilled:
         return "partiallyFilled";
 
-    case enum_3::filled:
+    case enum_1::filled:
         return "filled";
 
     default:
@@ -58,7 +58,7 @@ inline SBEPP_CPP14_CONSTEXPR const char*
 
 namespace types
 {
-using OrderStatus = ::engine_schemas::detail::types::enum_3;
+using OrderStatus = ::engine_schemas::detail::types::enum_1;
 } // namespace types
 } // namespace engine_schemas
 
