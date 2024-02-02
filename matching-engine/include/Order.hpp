@@ -31,9 +31,6 @@ protected:
     void updateLeavesQuantity(unsigned int fill_quantity) const;
     void updateOrderStatus() const;
     void updateEventTimestamp() const;
-    engine_schemas::types::Side getSBESide() const;
-    engine_schemas::types::OrderStatus getSBEOrderStatus() const;
-    engine_schemas::types::OrderType getSBEOrderType() const;
 public:
     //constructor  
     template<typename T>
@@ -86,6 +83,9 @@ public:
     std::string getOrderStatusString() const;
     std::vector<std::string> getOrderDetails() const;
     std::string getOrderDetailsString() const;
+    engine_schemas::types::Side getSBESide() const;
+    engine_schemas::types::OrderStatus getSBEOrderStatus() const;
+    engine_schemas::types::OrderType getSBEOrderType() const;    
     void printOrderDetails() const;  
     bool fillOrder(unsigned int fill_quantity) const;
     bool checkMatch(Order& order) const;

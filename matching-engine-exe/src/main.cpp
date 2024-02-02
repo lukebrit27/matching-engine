@@ -11,7 +11,8 @@
 // #include "oatpp/web/server/api/ApiController.hpp"
 
 //NEXT TIME DEVVING NOTE
-// Embed sbe logic into Order class
+// build feedhandler to manage sbe data and pub to kdb
+// add message bus pub/sub framework for subbing to the data
 
 // FUTURE DEVVING 
 // Fix price field. Currently int and there's no way to know where to place the decimal place.

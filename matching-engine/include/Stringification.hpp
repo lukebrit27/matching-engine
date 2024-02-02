@@ -1,6 +1,8 @@
+// Luke Britton, 31 Jab 24, Stringification.h
+#ifndef STRINGIFICATION_H
+#define STRINGIFICATION_H
 #include <fmt/core.h>
 #include <sbepp/sbepp.hpp>
-
 #include <type_traits>
 #include <array>
 #include <string>
@@ -181,3 +183,4 @@ private:
         indentation--;
     }
 };
+#endif // STRINGIFICATION_H

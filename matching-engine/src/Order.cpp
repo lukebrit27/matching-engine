@@ -6,11 +6,11 @@
 #include "Logger.hpp"
 #include "CurrentTime.hpp"
 #include "utils.hpp"
+#include "encode.hpp"
 #include <boost/uuid/uuid.hpp>            // uuid class
 #include <boost/uuid/uuid_generators.hpp> // generators
 #include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
 #include "Stringification.hpp" // code to convert sbe message to string
-
 
 // Destructor
 Order::~Order(){
@@ -204,27 +204,10 @@ bool Order::checkMatch(Order& order) const{
 };
 
 void Order::publishEvent() const{
-
     // note: it's up to client to provide sufficient buffer
     std::array<char, 1024> buf{};
-    auto m = sbepp::make_view<engine_schemas::messages::order_schema>(buf.data(), buf.size());
-    sbepp::fill_message_header(m);
-
-    m.eventTimestamp(event_timestamp);
-    m.price(price);
-    m.quantity(quantity);
-    m.leavesQuantity(leaves_quantity);
-    m.side(getSBESide());
-    m.orderType(getSBEOrderType()); 
-    m.orderStatus(getSBEOrderStatus());
-
-    auto oid = m.orderID();
-    utils::fillField<engine_schemas::types::STRING36<char>, ::engine_schemas::schema::types::STRING36> (oid, getOrderIDString());
-
-    auto sym = m.instrumentID();
-    utils::fillField<engine_schemas::types::STRING4<char>, ::engine_schemas::schema::types::STRING4> (sym, instrument_id);
-
+    auto m = sbepp::make_view<engine_schemas::messages::order_schema>(buf.data(), buf.size());    
+    encode::order(this, m);
     auto res = sbepp::visit<to_string_visitor>(m);
-
     Logger::getLogger()->info(fmt::format("{}", res.str())); // TEMP - TO-DO switch to network pub/sub framework once added
 }
