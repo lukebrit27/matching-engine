@@ -4,5 +4,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 set(CMAKE_CXX_EXTENSIONS Off)
 
+message(STATUS "BUILDING matching-engine library")
 add_subdirectory(matching-engine)
+message(STATUS "BUILDING matching-engine executable")
 add_subdirectory(matching-engine-exe)

@@ -7,10 +7,10 @@
 #include "CurrentTime.hpp"
 #include "utils.hpp"
 #include "encode.hpp"
+#include "event.hpp"
 #include <boost/uuid/uuid.hpp>            // uuid class
 #include <boost/uuid/uuid_generators.hpp> // generators
 #include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
-#include "Stringification.hpp" // code to convert sbe message to string
 
 // Destructor
 Order::~Order(){
@@ -209,5 +209,6 @@ void Order::publishEvent() const{
     auto m = sbepp::make_view<engine_schemas::messages::order_schema>(buf.data(), buf.size());    
     encode::order(this, m);
     auto res = sbepp::visit<to_string_visitor>(m);
-    Logger::getLogger()->info(fmt::format("{}", res.str())); // TEMP - TO-DO switch to network pub/sub framework once added
+    // Logger::getLogger()->info(fmt::format("{}", res.str())); // #include Stringification.hpp for this to work
+    event::Publisher::getPublisher()->publish(buf);
 }

@@ -3,6 +3,7 @@
 #include <utility>
 #include "Engine.hpp"
 #include "Logger.hpp"
+#include "event.hpp"
 
 void Engine::start(std::vector<std::string> instruments){
 
@@ -49,22 +50,44 @@ bool Engine::submitOrder(std::string instrument_id, unsigned int price, unsigned
             book.submitOrder(price, quantity, order_type, side);
             success = true;
         }
+        catch(const std::exception& e) {
+            std::string msg = e.what();       
+            Logger::getLogger()->error(msg);
+        }         
         catch(...){
-            std::string log_str = "{instrument_id : " + instrument_id + ", price : " + std::to_string(price) +
-            ", quantity : " + std::to_string(quantity) + ", order_type : " + order_type +
-            ", side : " + std::string(1, side) + "}";          
-            Logger::getLogger()->error("Failed to submit order:  " + log_str); 
-        } 
-    } 
-    else {
-        // book not found
+            Logger::getLogger()->error("Unknown error.");
+        }
+    }
+    else
         Logger::getLogger()->error("Instrument not found: " + instrument_id);
-        success = false;
-    }  
+
+    if ( !success ) {
+        std::string log_str = "{instrument_id : " + instrument_id + ", price : " + std::to_string(price) +
+        ", quantity : " + std::to_string(quantity) + ", order_type : " + order_type +
+        ", side : " + std::string(1, side) + "}";          
+        Logger::getLogger()->error("Failed to submit order:  " + log_str);
+    }
 
     return success;
 };
 
 Book& Engine::getBook(std::string instrument_id){
     return books.find(instrument_id)->second;
+};
+
+bool Engine::addEventListener(std::string addr, std::string type){
+    bool success = false;
+    try{
+        Logger::getLogger()->info("Adding new event listener: address=" + addr + ", type="+type);
+        event::Publisher::getPublisher()->addListener(addr, type);
+        success = true;
+        Logger::getLogger()->info("New event listener successfully added: address=" + addr + ", type="+type);
+    }
+    catch(const std::exception& e) {
+        std::string msg = e.what();       
+        Logger::getLogger()->error(msg);
+    }
+    if ( !success )
+        Logger::getLogger()->error("Failed to add event listener: address=" + addr + ", type="+type);
+    return success;        
 };

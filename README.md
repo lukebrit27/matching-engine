@@ -11,7 +11,12 @@
 
 - C++20 compatible compiler
 - CMake (version 3.12 or higher)
-- python3 
+- python3
+- Dependencies that need to be installed
+    - [sbepp](https://github.com/OleksandrKvl/sbepp/tree/main)
+- Other dependencies already included in the repo (as header files or git submodules)
+    - [spdlog](https://github.com/gabime/spdlog)
+    - [pybind11](https://github.com/pybind/pybind11/tree/stable)
 
 ## Build and Install
 

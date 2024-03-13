@@ -1,3 +1,4 @@
+// Luke Britton, 10 Aug 23, CurrentTime.h
 #ifndef CURRENT_TIME_H
 #define CURRENT_TIME_H
 

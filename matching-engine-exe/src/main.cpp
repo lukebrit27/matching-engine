@@ -6,6 +6,9 @@
 #include "Logger.hpp"
 #include "Engine.hpp"
 #include "Stringification.hpp"
+#include "encode.hpp"
+#include "event.hpp"
+#include <sbepp/sbepp.hpp>
 #include <sbepp-gen/engine_schemas/messages/order_schema.hpp>
 
 // #include "oatpp/web/server/api/ApiController.hpp"
@@ -24,6 +27,11 @@
 
 // NICE TO HAVE IDEAS
 // users should be able to add fields to orders (actually is this necessary for an mvp? could add this at a later time and write about it)
+
+// PACKAGES
+// matching-engine = code for running the exchange logic
+// matching-engine-fh = kdb feedhandler for the exchange data
+// matching-engine-gw = code for submitting orders to the exchange
 
 //CURRENT GOALS
 // Figure out how to write main in such a way that entites can begin submitting orders by loading some library into python
@@ -58,18 +66,6 @@
 // multi-threading
 // network considerations assuming a large trader base of bots (managing connections tcp/multicast, subscriptions etc. credentials to connect to the exchange?)
 
-template<typename T, typename Tag>
-void fillField(T& field, const std::string& inputString){
-    unsigned int length = std::min(sbepp::type_traits<Tag>::length(), inputString.length());
-    if (length == 0){
-        return;
-    };
-    // Copy the string content to the field
-    for (int i = 0; i < length; ++i) {
-        field[i] = inputString[i];
-    };
-}
-
 int main(int argc, char* argv[]){
 
 //    Book orderbook = Book("TEST");
@@ -79,8 +75,11 @@ int main(int argc, char* argv[]){
 //    orderbook.submitOrder(2056, 1100, OrderType::limit, 'B');   
 //    orderbook.submitOrder(2055, 2000, OrderType::limit, 'S'); 
 
-    Engine engine = Engine();
-    engine.start({"TES1","TES2","TES3","TES2"});
+    
+    Engine engine = Engine(); // initiate engine
+    engine.addEventListener("/tmp/testfile", "file"); // add an event listener
+    engine.start({"TES1","TES2","TES3","TES2"}); // start engine
+    // submit orders
     engine.submitOrder("TES1", 2055, 3000, "limit", 'B'); 
     engine.submitOrder("TES1", 2055, 33000, "limit", 'B'); 
     engine.submitOrder("TES1", 2059, 400, "limit", 'B'); 
@@ -91,4 +90,14 @@ int main(int argc, char* argv[]){
     Book& book = engine.getBook("TES1");
     Order best_bid = book.getBestBid();
 
+    std::array<char, 1024> buf{};
+    auto m = sbepp::make_view<engine_schemas::messages::order_schema>(buf.data(), buf.size());
+    encode::order(&best_bid, m);
+
+    // Convert the std::array to a std::string
+    std::string str(buf.data(), buf.size());
+    
+    Logger::getLogger()->info("--------------------------------------------------------------");
+    Logger::getLogger()->info(str);
+    
 };

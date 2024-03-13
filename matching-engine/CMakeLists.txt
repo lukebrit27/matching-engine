@@ -11,6 +11,7 @@ add_library(matching-engine STATIC
     src/Logger.cpp
     src/Order.cpp
     src/utils.cpp
+    src/event.cpp
 )
 set_target_properties(matching-engine PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
@@ -47,5 +48,6 @@ endif()
 target_include_directories(matching-engine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/external_include")
 target_include_directories(matching-engine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
+# python version of the lib
 pybind11_add_module(matching_engine src/PyBinder.cpp)
 target_link_libraries(matching_engine PRIVATE matching-engine)

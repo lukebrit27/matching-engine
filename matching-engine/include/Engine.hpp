@@ -17,5 +17,6 @@ public:
     void addBook(std::string instrument_id);
     bool submitOrder(std::string instrument_id, unsigned int price, unsigned int quantity, std::string order_type, char side);
     Book& getBook(std::string instrument_id);
+    bool addEventListener(std::string addr, std::string type);
 };
 #endif // ENGINE_H
