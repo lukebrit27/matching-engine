@@ -36,8 +36,8 @@ public:
     // for their function calls
     template<typename T>
     requires std::is_same_v<T, OrderType> || std::is_same_v<T, std::string>
-    void submitOrder(unsigned int price, unsigned int quantity, T order_type, char side){
-        std::shared_ptr<Order> order = std::make_shared<Order>(instrument_id, price, quantity, order_type, side);
+    void submitOrder(unsigned int price, unsigned int quantity, T order_type, char side, std::string trader){
+        std::shared_ptr<Order> order = std::make_shared<Order>(instrument_id, price, quantity, order_type, side, trader);
         Logger::getLogger()->info("NEW ORDER SUBMITTED - " + order->getOrderDetailsString());
         order->publishEvent(); // pub sbe data for new order
         bool filled = match(*order);

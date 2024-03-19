@@ -1,6 +1,7 @@
 #include <string>
 #include <chrono>
 #include <thread>
+#include <fstream>
 #include "Book.hpp"
 #include "Order.hpp"
 #include "Logger.hpp"
@@ -8,6 +9,7 @@
 #include "Stringification.hpp"
 #include "encode.hpp"
 #include "event.hpp"
+#include "decode.hpp"
 #include <sbepp/sbepp.hpp>
 #include <sbepp-gen/engine_schemas/messages/order_schema.hpp>
 
@@ -68,36 +70,56 @@
 
 int main(int argc, char* argv[]){
 
-//    Book orderbook = Book("TEST");
-//    orderbook.submitOrder(2055, 3000, OrderType::limit, 'B');
-//    orderbook.submitOrder(2055, 33000, OrderType::limit, 'B');
-//    orderbook.submitOrder(2059, 400, OrderType::limit, 'B');
-//    orderbook.submitOrder(2056, 1100, OrderType::limit, 'B');   
-//    orderbook.submitOrder(2055, 2000, OrderType::limit, 'S'); 
-
     
-    Engine engine = Engine(); // initiate engine
-    engine.addEventListener("/tmp/testfile", "file"); // add an event listener
-    engine.start({"TES1","TES2","TES3","TES2"}); // start engine
-    // submit orders
-    engine.submitOrder("TES1", 2055, 3000, "limit", 'B'); 
-    engine.submitOrder("TES1", 2055, 33000, "limit", 'B'); 
-    engine.submitOrder("TES1", 2059, 400, "limit", 'B'); 
-    engine.submitOrder("TES1", 2056, 1100, "limit", 'B'); 
-    engine.submitOrder("TES1", 2055, 2000, "limit", 'S'); 
+    // Engine engine = Engine(); // initiate engine
+    // engine.addEventListener("/tmp/testfile", "file"); // add an event listener
+    // engine.start({"TES1","TES2","TES3","TES2"}); // start engine
+    // // submit orders
+    // engine.submitOrder("TES1", 2055, 3000, "limit", 'B', "trader1"); 
+    // engine.submitOrder("TES1", 2055, 33000, "limit", 'B', "trader1"); 
+    // engine.submitOrder("TES1", 2059, 400, "limit", 'B', "trader1"); 
+    // engine.submitOrder("TES1", 2056, 1100, "limit", 'B', "trader1"); 
+    // engine.submitOrder("TES1", 2055, 2000, "limit", 'S', "trader2"); 
     
 
-    Book& book = engine.getBook("TES1");
-    Order best_bid = book.getBestBid();
+    // Book& book = engine.getBook("TES1");
+    // Order best_bid = book.getBestBid();
 
-    std::array<char, 1024> buf{};
-    auto m = sbepp::make_view<engine_schemas::messages::order_schema>(buf.data(), buf.size());
-    encode::order(&best_bid, m);
+    // std::array<char, 1024> buf{};
+    // auto m = sbepp::make_view<engine_schemas::messages::order_schema>(buf.data(), buf.size());
+    // encode::order(&best_bid, m);
 
-    // Convert the std::array to a std::string
-    std::string str(buf.data(), buf.size());
+    // // Convert the std::array to a std::string
+    // std::string str(buf.data(), buf.size());
     
+    // Logger::getLogger()->info("--------------------------------------------------------------");
+    // Logger::getLogger()->info(str);
+
+    // decode sbe messages
     Logger::getLogger()->info("--------------------------------------------------------------");
-    Logger::getLogger()->info(str);
-    
+    std::ifstream file("/tmp/testfile");
+    if (!file.is_open()) {
+        std::cerr << "Error opening file!" << std::endl;
+        return 1;
+    }
+
+    unsigned int line_count = 0;
+    std::string line;
+    const unsigned int buf_size = 1024;
+    std::array<char, buf_size> buf;
+
+    // Read each line of the file and decode
+    while (std::getline(file, line)) {
+        Logger::getLogger()->info("test");
+        Logger::getLogger()->info(line);
+        Logger::getLogger()->info("String length: " + std::to_string(line.length()));
+        ++line_count;
+        Logger::getLogger()->info("Line Count: " + std::to_string(line_count));
+        std::copy(line.data(), line.data() + buf_size, buf.begin());
+        std::string res = decode::order(buf);
+        Logger::getLogger()->info(res);
+    }
+
+    file.close(); // Close the file when done
+    return 0;
 };

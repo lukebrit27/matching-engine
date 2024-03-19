@@ -8,6 +8,7 @@
 #include "types/Side.hpp"
 #include "types/OrderType.hpp"
 #include "types/STRING36.hpp"
+#include "types/STRING20.hpp"
 #include "types/STRING4.hpp"
 #include "types/UINT32.hpp"
 #include "types/UINT64.hpp"

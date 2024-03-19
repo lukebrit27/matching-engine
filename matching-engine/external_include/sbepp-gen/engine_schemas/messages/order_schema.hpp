@@ -9,6 +9,7 @@
 SBEPP_WARNINGS_OFF();
 
 #include "../schema/schema.hpp"
+#include "../types/STRING20.hpp"
 #include "../types/OrderStatus.hpp"
 #include "../types/STRING4.hpp"
 #include "../types/OrderType.hpp"
@@ -138,6 +139,11 @@ public:
     {
         return ::sbepp::detail::get_static_field_view<::engine_schemas::types::STRING4<Byte>>(
             *this, 71);
+    }
+    constexpr ::engine_schemas::types::STRING20<Byte> trader() const noexcept
+    {
+        return ::sbepp::detail::get_static_field_view<::engine_schemas::types::STRING20<Byte>>(
+            *this, 75);
     }
 
     template<
@@ -319,12 +325,26 @@ public:
         typename Cursor,
         typename = ::sbepp::detail::enable_if_cursor_compatible_t<
             Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
-    SBEPP_CPP20_CONSTEXPR auto instrumentID(Cursor&& c) const noexcept
-        -> ::sbepp::detail::cursor_result_type_t<Cursor,
-            ::engine_schemas::types::STRING4<::sbepp::detail::cursor_byte_type_t<Cursor>>>
+    SBEPP_CPP20_CONSTEXPR auto
+        instrumentID(Cursor&& c) const noexcept
+        -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::STRING4<
+            ::sbepp::detail::cursor_byte_type_t<Cursor>>>
     {
-        return c.template get_last_static_field_view<::engine_schemas::types::STRING4<::sbepp::detail::cursor_byte_type_t<Cursor>>>(
-            *this, 0, 71);
+        return c.template get_static_field_view<::engine_schemas::types::STRING4<
+            ::sbepp::detail::cursor_byte_type_t<Cursor>>>(
+                *this, 0, 71);
+    }
+
+    template<
+        typename Cursor,
+        typename = ::sbepp::detail::enable_if_cursor_compatible_t<
+            Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
+    SBEPP_CPP20_CONSTEXPR auto trader(Cursor&& c) const noexcept
+        -> ::sbepp::detail::cursor_result_type_t<Cursor,
+            ::engine_schemas::types::STRING20<::sbepp::detail::cursor_byte_type_t<Cursor>>>
+    {
+        return c.template get_last_static_field_view<::engine_schemas::types::STRING20<::sbepp::detail::cursor_byte_type_t<Cursor>>>(
+            *this, 0, 75);
     }
 
 
@@ -338,7 +358,7 @@ public:
         header.schemaId({1});
         header.templateId({1});
         header.version({0});
-        header.blockLength({63});
+        header.blockLength({83});
         header.numGroups({0});
 
         header.numVarDataFields({0});
@@ -376,7 +396,8 @@ public:
 ||v.template on_field(this->orderID(c), ::engine_schemas::schema::messages::order_schema::orderID{})
 ||v.template on_field(this->orderType(c), ::engine_schemas::schema::messages::order_schema::orderType{})
 ||v.template on_field(this->orderStatus(c), ::engine_schemas::schema::messages::order_schema::orderStatus{})
-||v.template on_field(this->instrumentID(c), ::engine_schemas::schema::messages::order_schema::instrumentID{});
+||v.template on_field(this->instrumentID(c), ::engine_schemas::schema::messages::order_schema::instrumentID{})
+||v.template on_field(this->trader(c), ::engine_schemas::schema::messages::order_schema::trader{});
     }
 
 };
@@ -417,7 +438,7 @@ public:
 
     static constexpr block_length_t block_length() noexcept
     {
-        return 63;
+        return 83;
     }
 
     static constexpr const char* semantic_type() noexcept
@@ -801,6 +822,49 @@ public:
     using value_type = ::engine_schemas::types::STRING4<Byte>;
 
     using value_type_tag = ::engine_schemas::schema::types::STRING4;
+};
+
+template<>
+class field_traits<::engine_schemas::schema::messages::order_schema::trader>
+{
+public:
+    static constexpr const char* name() noexcept
+    {
+        return "trader";
+    }
+
+    static constexpr member_id_t id() noexcept
+    {
+        return 10;
+    }
+
+    static constexpr const char* description() noexcept
+    {
+        return "";
+    }
+
+    static constexpr field_presence presence() noexcept
+    {
+        return ::sbepp::field_presence::required;
+    }
+    
+    static constexpr offset_t offset() noexcept
+    {
+        return {63};
+    }
+
+
+    static constexpr version_t since_version() noexcept
+    {
+        return 0;
+    }
+
+    
+    
+    template<typename Byte>
+    using value_type = ::engine_schemas::types::STRING20<Byte>;
+
+    using value_type_tag = ::engine_schemas::schema::types::STRING20;
 };
 
 }  // namespace sbepp

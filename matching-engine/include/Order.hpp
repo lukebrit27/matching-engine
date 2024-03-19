@@ -26,7 +26,8 @@ protected:
     const char side;
     const boost::uuids::uuid order_id;  
     const OrderType order_type;  
-    mutable OrderStatus order_status; 
+    mutable OrderStatus order_status;
+    const std::string trader;
     //functions
     void updateLeavesQuantity(unsigned int fill_quantity) const;
     void updateOrderStatus() const;
@@ -35,8 +36,8 @@ public:
     //constructor  
     template<typename T>
     requires std::is_same_v<T, OrderType> || std::is_same_v<T, std::string>
-    Order(std::string arg_instrument_id, unsigned int arg_price, unsigned int arg_quantity, T arg_order_type, char arg_side) :
-        instrument_id(arg_instrument_id), price(arg_price), quantity(arg_quantity), order_type(castOrderTypeString(arg_order_type)), side(arg_side), order_id(boost::uuids::random_generator()()) {
+    Order(std::string arg_instrument_id, unsigned int arg_price, unsigned int arg_quantity, T arg_order_type, char arg_side, std::string arg_trader) :
+        instrument_id(arg_instrument_id), price(arg_price), quantity(arg_quantity), order_type(castOrderTypeString(arg_order_type)), side(arg_side), order_id(boost::uuids::random_generator()()), trader(arg_trader) {
 
         event_timestamp = CurrentTime::nanoseconds();
         leaves_quantity = arg_quantity;
@@ -75,6 +76,7 @@ public:
     unsigned int getQuantity() const;
     unsigned int getLeavesQuantity() const;
     char getSide() const;
+    std::string getTrader() const;
     boost::uuids::uuid getOrderID() const;
     std::string getOrderIDString() const;
     OrderType getOrderType() const;   

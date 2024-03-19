@@ -44,14 +44,15 @@ struct type_7{};
 struct type_8{};
 struct type_9{};
 struct type_10{};
+struct type_11{};
 struct composite_1
 {
-using blockLength = ::engine_schemas::detail::schema::type_5;
-using templateId = ::engine_schemas::detail::schema::type_6;
-using schemaId = ::engine_schemas::detail::schema::type_7;
-using version = ::engine_schemas::detail::schema::type_8;
-using numGroups = ::engine_schemas::detail::schema::type_9;
-using numVarDataFields = ::engine_schemas::detail::schema::type_10;
+using blockLength = ::engine_schemas::detail::schema::type_6;
+using templateId = ::engine_schemas::detail::schema::type_7;
+using schemaId = ::engine_schemas::detail::schema::type_8;
+using version = ::engine_schemas::detail::schema::type_9;
+using numGroups = ::engine_schemas::detail::schema::type_10;
+using numVarDataFields = ::engine_schemas::detail::schema::type_11;
 
 };
 struct message_1
@@ -65,6 +66,7 @@ struct message_1
     struct orderType{};
     struct orderStatus{};
     struct instrumentID{};
+    struct trader{};
 
 };
 
@@ -75,9 +77,10 @@ struct types_0
     using Side = ::engine_schemas::detail::schema::enum_2;
     using OrderType = ::engine_schemas::detail::schema::enum_3;
     using STRING36 = ::engine_schemas::detail::schema::type_1;
-    using STRING4 = ::engine_schemas::detail::schema::type_2;
-    using UINT32 = ::engine_schemas::detail::schema::type_3;
-    using UINT64 = ::engine_schemas::detail::schema::type_4;
+    using STRING20 = ::engine_schemas::detail::schema::type_2;
+    using STRING4 = ::engine_schemas::detail::schema::type_3;
+    using UINT32 = ::engine_schemas::detail::schema::type_4;
+    using UINT64 = ::engine_schemas::detail::schema::type_5;
     using messageHeader = ::engine_schemas::detail::schema::composite_1;
 
 };

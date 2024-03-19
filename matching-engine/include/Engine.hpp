@@ -15,7 +15,7 @@ public:
     //functions
     void start(std::vector<std::string> instruments);
     void addBook(std::string instrument_id);
-    bool submitOrder(std::string instrument_id, unsigned int price, unsigned int quantity, std::string order_type, char side);
+    bool submitOrder(std::string instrument_id, unsigned int price, unsigned int quantity, std::string order_type, char side, std::string trader);
     Book& getBook(std::string instrument_id);
     bool addEventListener(std::string addr, std::string type);
 };

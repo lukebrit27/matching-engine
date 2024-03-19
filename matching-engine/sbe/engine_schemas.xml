@@ -15,6 +15,7 @@
         <type name="UINT32" primitiveType="uint32"/>
         <type name="STRING36" primitiveType="char" length="36" />
         <type name="STRING4" primitiveType="char" length="4" />
+        <type name="STRING20" primitiveType="char" length="20" />
  
         <enum name="Side" encodingType="char">
             <validValue name="buy">B</validValue>
@@ -44,5 +45,6 @@
         <field name="orderType" id="7" type="OrderType"/>
         <field name="orderStatus" id="8" type="OrderStatus"/>
         <field name="instrumentID" id="9" type="STRING4" semanticType="String"/>
+        <field name="trader" id="10" type="STRING20" semanticType="String"/>
     </sbe:message>
 </sbe:messageSchema>

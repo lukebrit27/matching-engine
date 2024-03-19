@@ -18,30 +18,19 @@ namespace detail
 namespace types
 {
 
-class type_4
-    : public ::sbepp::detail::required_base<::std::uint32_t, type_4>
-{
-public:
-    using ::sbepp::detail::required_base<
-        ::std::uint32_t, type_4>::required_base;
-
-    static constexpr value_type min_value() noexcept
-    {
-        return {0};
-    }
-
-    static constexpr value_type max_value() noexcept
-    {
-        return {4294967294};
-    }
-};
+template<typename Byte>
+using type_2 = ::sbepp::detail::static_array_ref<
+    Byte, char, 20>;
 
 } // namespace types
 } // namespace detail
 
 namespace types
 {
-using UINT32 = ::engine_schemas::detail::types::type_4;
+
+    template<typename Byte>
+    using STRING20 = ::engine_schemas::detail::types::type_2<Byte>;
+
 } // namespace types
 } // namespace engine_schemas
 
@@ -49,12 +38,12 @@ namespace sbepp
 {
 
 template<>
-class type_traits<::engine_schemas::schema::types::UINT32>
+class type_traits<::engine_schemas::schema::types::STRING20>
 {
 public:
     static constexpr const char* name() noexcept
     {
-        return "UINT32";
+        return "STRING20";
     }
 
     static constexpr const char* description() noexcept
@@ -67,22 +56,12 @@ public:
         return ::sbepp::field_presence::required;
     }
 
-    using primitive_type = ::std::uint32_t;
+    using primitive_type = char;
     
-    static constexpr primitive_type min_value() noexcept
-    {
-        return value_type::min_value();
-    }
-    
-    static constexpr primitive_type max_value() noexcept
-    {
-        return value_type::max_value();
-    }
-
     
     static constexpr length_t length() noexcept
     {
-        return 1;
+        return 20;
     }
     
     
@@ -103,7 +82,10 @@ public:
     }
 
     
-    using value_type = ::engine_schemas::types::UINT32;
+    
+    template<typename Byte>
+    using value_type = ::engine_schemas::types::STRING20<Byte>;
+
 };
 
 }  // namespace sbepp

@@ -1,6 +1,7 @@
 // Luke Britton, 2 Feb 24, encode.h
 #ifndef ENCODE_H
 #define ENCODE_H
+#define EVENT_BUFFER_SIZE 1024
 #include "Order.hpp"
 #include "utils.hpp"
 #include <sbepp/sbepp.hpp>
@@ -23,7 +24,10 @@ namespace encode{
         utils::fillField<engine_schemas::types::STRING36<char>, ::engine_schemas::schema::types::STRING36> (oid, o->getOrderIDString());
 
         auto sym = m.instrumentID();
-        utils::fillField<engine_schemas::types::STRING4<char>, ::engine_schemas::schema::types::STRING4> (sym, o->getInstrumentID());        
+        utils::fillField<engine_schemas::types::STRING4<char>, ::engine_schemas::schema::types::STRING4> (sym, o->getInstrumentID());
+
+        auto trader = m.trader();
+        utils::fillField<engine_schemas::types::STRING20<char>, ::engine_schemas::schema::types::STRING20> (trader, o->getTrader());
     }
 }
 

@@ -38,7 +38,7 @@ void Engine::addBook(std::string instrument_id){
     books.insert(std::make_pair(instrument_id, Book(instrument_id)));
 }
 
-bool Engine::submitOrder(std::string instrument_id, unsigned int price, unsigned int quantity, std::string order_type, char side){
+bool Engine::submitOrder(std::string instrument_id, unsigned int price, unsigned int quantity, std::string order_type, char side, std::string trader){
     auto book_it = books.find(instrument_id);
     bool success = false;
     
@@ -47,7 +47,7 @@ bool Engine::submitOrder(std::string instrument_id, unsigned int price, unsigned
         // TO-DO add logging
         Book& book = book_it->second;
         try{
-            book.submitOrder(price, quantity, order_type, side);
+            book.submitOrder(price, quantity, order_type, side, trader);
             success = true;
         }
         catch(const std::exception& e) {

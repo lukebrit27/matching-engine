@@ -26,6 +26,9 @@ Order& Order::operator=(const Order& other) {
 void Order::validateOrder(){
     //validateOrderType();
     validateSide();
+
+    if (trader.length() > 20)
+        throw std::invalid_argument("trader cannot exceed 20 characters");
 };
 
 void Order::validateSide(){
@@ -55,6 +58,10 @@ unsigned int Order::getLeavesQuantity() const{
 
 char Order::getSide() const{
     return side;
+};
+
+std::string Order::getTrader() const{
+    return trader;
 };
 
 engine_schemas::types::Side Order::getSBESide() const{
@@ -128,7 +135,8 @@ std::vector<std::string> Order::getOrderDetails() const{
     details.push_back("event_timestamp : " + CurrentTime::convertNanosecondsToTimestamp(event_timestamp) + ", ");
     details.push_back("leaves_quantity : " + std::to_string(leaves_quantity) + ", ");
     details.push_back("side : " + std::string(1, side) + ", ");
-    details.push_back( "order_id : " + getOrderIDString() + "}");
+    details.push_back( "order_id : " + getOrderIDString() + ", ");
+    details.push_back( "trader : " + trader + "}");
 
     return details;
 }; 
@@ -205,10 +213,8 @@ bool Order::checkMatch(Order& order) const{
 
 void Order::publishEvent() const{
     // note: it's up to client to provide sufficient buffer
-    std::array<char, 1024> buf{};
+    std::array<char, EVENT_BUFFER_SIZE> buf{};
     auto m = sbepp::make_view<engine_schemas::messages::order_schema>(buf.data(), buf.size());    
     encode::order(this, m);
-    auto res = sbepp::visit<to_string_visitor>(m);
-    // Logger::getLogger()->info(fmt::format("{}", res.str())); // #include Stringification.hpp for this to work
     event::Publisher::getPublisher()->publish(buf);
 }

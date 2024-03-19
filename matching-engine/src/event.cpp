@@ -37,7 +37,15 @@ void Publisher::addListener(std::string& addr, std::string& type){
     }
 };
 
-void Publisher::publish(std::array<char, 1024>& buf){
+bool Publisher::listenerExists(std::string& addr){
+    bool exists = false;
+    auto it = connections.find(addr);
+    if (it != connections.end())
+        exists = true;    
+    return exists;
+};
+
+void Publisher::publish(std::array<char, EVENT_BUFFER_SIZE>& buf){
     // loop through connections and write
     // *connections[addr][HANDLE] << buf << endl
     // run on separate thread pool

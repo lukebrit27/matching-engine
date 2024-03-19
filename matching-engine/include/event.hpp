@@ -2,6 +2,7 @@
 
 #ifndef EVENT_H
 #define EVENT_H
+#define EVENT_BUFFER_SIZE 1024
 #include <string>
 #include <unordered_map>
 #include <variant>
@@ -27,9 +28,10 @@ namespace event{
             Publisher();
             // functions
             void addListener(std::string& addr, std::string& type);
+            bool listenerExists(std::string& addr);
             std::shared_ptr<std::ofstream> connectFile(std::string& addr, std::string& type);
             // void connectIP(std::string& addr, std::string& type);
-            void publish(std::array<char, 1024>& buf);
+            void publish(std::array<char, EVENT_BUFFER_SIZE>& buf);
             static std::shared_ptr<Publisher> getPublisher();         
     };
 

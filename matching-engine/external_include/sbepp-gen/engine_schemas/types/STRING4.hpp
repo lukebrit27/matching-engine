@@ -19,7 +19,7 @@ namespace types
 {
 
 template<typename Byte>
-using type_2 = ::sbepp::detail::static_array_ref<
+using type_3 = ::sbepp::detail::static_array_ref<
     Byte, char, 4>;
 
 } // namespace types
@@ -29,7 +29,7 @@ namespace types
 {
 
     template<typename Byte>
-    using STRING4 = ::engine_schemas::detail::types::type_2<Byte>;
+    using STRING4 = ::engine_schemas::detail::types::type_3<Byte>;
 
 } // namespace types
 } // namespace engine_schemas
