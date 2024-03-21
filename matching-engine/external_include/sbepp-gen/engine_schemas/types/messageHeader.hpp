@@ -19,24 +19,6 @@ namespace types
 {
 
 
-class type_6
-    : public ::sbepp::detail::required_base<::std::uint16_t, type_6>
-{
-public:
-    using ::sbepp::detail::required_base<
-        ::std::uint16_t, type_6>::required_base;
-
-    static constexpr value_type min_value() noexcept
-    {
-        return {0};
-    }
-
-    static constexpr value_type max_value() noexcept
-    {
-        return {65534};
-    }
-};
-
 class type_7
     : public ::sbepp::detail::required_base<::std::uint16_t, type_7>
 {
@@ -127,6 +109,24 @@ public:
     }
 };
 
+class type_12
+    : public ::sbepp::detail::required_base<::std::uint16_t, type_12>
+{
+public:
+    using ::sbepp::detail::required_base<
+        ::std::uint16_t, type_12>::required_base;
+
+    static constexpr value_type min_value() noexcept
+    {
+        return {0};
+    }
+
+    static constexpr value_type max_value() noexcept
+    {
+        return {65534};
+    }
+};
+
 
 template<typename Byte>
 class composite_1 : public ::sbepp::detail::composite_base<Byte>
@@ -135,81 +135,81 @@ public:
     using ::sbepp::detail::composite_base<Byte>::composite_base;
     using ::sbepp::detail::composite_base<Byte>::operator();
 
-    SBEPP_CPP20_CONSTEXPR ::engine_schemas::detail::types::type_6 blockLength() const noexcept
+    SBEPP_CPP20_CONSTEXPR ::engine_schemas::detail::types::type_7 blockLength() const noexcept
     {
         return ::sbepp::detail::get_value<
-            ::engine_schemas::detail::types::type_6, ::engine_schemas::detail::types::type_6::value_type, ::sbepp::endian::little>(*this, 0);
+            ::engine_schemas::detail::types::type_7, ::engine_schemas::detail::types::type_7::value_type, ::sbepp::endian::little>(*this, 0);
     }
 
     template<
         typename T = void,
         typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
-    SBEPP_CPP20_CONSTEXPR void blockLength(::engine_schemas::detail::types::type_6 v) const noexcept
+    SBEPP_CPP20_CONSTEXPR void blockLength(::engine_schemas::detail::types::type_7 v) const noexcept
     {
         ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 0, v.value());
     }
-    SBEPP_CPP20_CONSTEXPR ::engine_schemas::detail::types::type_7 templateId() const noexcept
+    SBEPP_CPP20_CONSTEXPR ::engine_schemas::detail::types::type_8 templateId() const noexcept
     {
         return ::sbepp::detail::get_value<
-            ::engine_schemas::detail::types::type_7, ::engine_schemas::detail::types::type_7::value_type, ::sbepp::endian::little>(*this, 2);
+            ::engine_schemas::detail::types::type_8, ::engine_schemas::detail::types::type_8::value_type, ::sbepp::endian::little>(*this, 2);
     }
 
     template<
         typename T = void,
         typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
-    SBEPP_CPP20_CONSTEXPR void templateId(::engine_schemas::detail::types::type_7 v) const noexcept
+    SBEPP_CPP20_CONSTEXPR void templateId(::engine_schemas::detail::types::type_8 v) const noexcept
     {
         ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 2, v.value());
     }
-    SBEPP_CPP20_CONSTEXPR ::engine_schemas::detail::types::type_8 schemaId() const noexcept
+    SBEPP_CPP20_CONSTEXPR ::engine_schemas::detail::types::type_9 schemaId() const noexcept
     {
         return ::sbepp::detail::get_value<
-            ::engine_schemas::detail::types::type_8, ::engine_schemas::detail::types::type_8::value_type, ::sbepp::endian::little>(*this, 4);
+            ::engine_schemas::detail::types::type_9, ::engine_schemas::detail::types::type_9::value_type, ::sbepp::endian::little>(*this, 4);
     }
 
     template<
         typename T = void,
         typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
-    SBEPP_CPP20_CONSTEXPR void schemaId(::engine_schemas::detail::types::type_8 v) const noexcept
+    SBEPP_CPP20_CONSTEXPR void schemaId(::engine_schemas::detail::types::type_9 v) const noexcept
     {
         ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 4, v.value());
     }
-    SBEPP_CPP20_CONSTEXPR ::engine_schemas::detail::types::type_9 version() const noexcept
+    SBEPP_CPP20_CONSTEXPR ::engine_schemas::detail::types::type_10 version() const noexcept
     {
         return ::sbepp::detail::get_value<
-            ::engine_schemas::detail::types::type_9, ::engine_schemas::detail::types::type_9::value_type, ::sbepp::endian::little>(*this, 6);
+            ::engine_schemas::detail::types::type_10, ::engine_schemas::detail::types::type_10::value_type, ::sbepp::endian::little>(*this, 6);
     }
 
     template<
         typename T = void,
         typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
-    SBEPP_CPP20_CONSTEXPR void version(::engine_schemas::detail::types::type_9 v) const noexcept
+    SBEPP_CPP20_CONSTEXPR void version(::engine_schemas::detail::types::type_10 v) const noexcept
     {
         ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 6, v.value());
     }
-    SBEPP_CPP20_CONSTEXPR ::engine_schemas::detail::types::type_10 numGroups() const noexcept
+    SBEPP_CPP20_CONSTEXPR ::engine_schemas::detail::types::type_11 numGroups() const noexcept
     {
         return ::sbepp::detail::get_value<
-            ::engine_schemas::detail::types::type_10, ::engine_schemas::detail::types::type_10::value_type, ::sbepp::endian::little>(*this, 8);
+            ::engine_schemas::detail::types::type_11, ::engine_schemas::detail::types::type_11::value_type, ::sbepp::endian::little>(*this, 8);
     }
 
     template<
         typename T = void,
         typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
-    SBEPP_CPP20_CONSTEXPR void numGroups(::engine_schemas::detail::types::type_10 v) const noexcept
+    SBEPP_CPP20_CONSTEXPR void numGroups(::engine_schemas::detail::types::type_11 v) const noexcept
     {
         ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 8, v.value());
     }
-    SBEPP_CPP20_CONSTEXPR ::engine_schemas::detail::types::type_11 numVarDataFields() const noexcept
+    SBEPP_CPP20_CONSTEXPR ::engine_schemas::detail::types::type_12 numVarDataFields() const noexcept
     {
         return ::sbepp::detail::get_value<
-            ::engine_schemas::detail::types::type_11, ::engine_schemas::detail::types::type_11::value_type, ::sbepp::endian::little>(*this, 10);
+            ::engine_schemas::detail::types::type_12, ::engine_schemas::detail::types::type_12::value_type, ::sbepp::endian::little>(*this, 10);
     }
 
     template<
         typename T = void,
         typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
-    SBEPP_CPP20_CONSTEXPR void numVarDataFields(::engine_schemas::detail::types::type_11 v) const noexcept
+    SBEPP_CPP20_CONSTEXPR void numVarDataFields(::engine_schemas::detail::types::type_12 v) const noexcept
     {
         ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 10, v.value());
     }
@@ -318,7 +318,7 @@ public:
     }
 
     
-    using value_type = ::engine_schemas::detail::types::type_6;
+    using value_type = ::engine_schemas::detail::types::type_7;
 };
 
 template<>
@@ -380,7 +380,7 @@ public:
     }
 
     
-    using value_type = ::engine_schemas::detail::types::type_7;
+    using value_type = ::engine_schemas::detail::types::type_8;
 };
 
 template<>
@@ -442,7 +442,7 @@ public:
     }
 
     
-    using value_type = ::engine_schemas::detail::types::type_8;
+    using value_type = ::engine_schemas::detail::types::type_9;
 };
 
 template<>
@@ -504,7 +504,7 @@ public:
     }
 
     
-    using value_type = ::engine_schemas::detail::types::type_9;
+    using value_type = ::engine_schemas::detail::types::type_10;
 };
 
 template<>
@@ -566,7 +566,7 @@ public:
     }
 
     
-    using value_type = ::engine_schemas::detail::types::type_10;
+    using value_type = ::engine_schemas::detail::types::type_11;
 };
 
 template<>
@@ -628,7 +628,7 @@ public:
     }
 
     
-    using value_type = ::engine_schemas::detail::types::type_11;
+    using value_type = ::engine_schemas::detail::types::type_12;
 };
 
 template<>

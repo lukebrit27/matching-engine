@@ -10,9 +10,7 @@ SBEPP_WARNINGS_OFF();
 
 #include "../schema/schema.hpp"
 #include "../types/STRING20.hpp"
-#include "../types/OrderStatus.hpp"
 #include "../types/STRING4.hpp"
-#include "../types/OrderType.hpp"
 #include "../types/Side.hpp"
 #include "../types/messageHeader.hpp"
 #include "../types/STRING36.hpp"
@@ -31,7 +29,7 @@ namespace messages
 
 
 template<typename Byte>
-class message_1 : public ::sbepp::detail::message_base<
+class message_2 : public ::sbepp::detail::message_base<
     Byte, ::engine_schemas::types::messageHeader<Byte>>
 {
 public:
@@ -92,23 +90,10 @@ public:
     {
         ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 25, v.value());
     }
-    SBEPP_CPP20_CONSTEXPR ::engine_schemas::types::UINT32 leavesQuantity() const noexcept
-    {
-        return ::sbepp::detail::get_value<
-            ::engine_schemas::types::UINT32, ::engine_schemas::types::UINT32::value_type, ::sbepp::endian::little>(*this, 29);
-    }
-
-    template<
-        typename T = void,
-        typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
-    SBEPP_CPP20_CONSTEXPR void leavesQuantity(::engine_schemas::types::UINT32 v) const noexcept
-    {
-        ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 29, v.value());
-    }
     SBEPP_CPP20_CONSTEXPR ::engine_schemas::types::Side side() const noexcept
     {
         return ::sbepp::detail::get_value<
-            ::engine_schemas::types::Side, ::engine_schemas::types::Side, ::sbepp::endian::little>(*this, 33);
+            ::engine_schemas::types::Side, ::engine_schemas::types::Side, ::sbepp::endian::little>(*this, 29);
     }
 
     template<
@@ -116,48 +101,37 @@ public:
         typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
     SBEPP_CPP20_CONSTEXPR void side(::engine_schemas::types::Side v) const noexcept
     {
-        ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 33, v);
+        ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 29, v);
     }
-    constexpr ::engine_schemas::types::STRING36<Byte> orderID() const noexcept
+    constexpr ::engine_schemas::types::STRING36<Byte> tradeID() const noexcept
     {
         return ::sbepp::detail::get_static_field_view<::engine_schemas::types::STRING36<Byte>>(
-            *this, 34);
-    }
-    SBEPP_CPP20_CONSTEXPR ::engine_schemas::types::OrderType orderType() const noexcept
-    {
-        return ::sbepp::detail::get_value<
-            ::engine_schemas::types::OrderType, ::engine_schemas::types::OrderType, ::sbepp::endian::little>(*this, 70);
-    }
-
-    template<
-        typename T = void,
-        typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
-    SBEPP_CPP20_CONSTEXPR void orderType(::engine_schemas::types::OrderType v) const noexcept
-    {
-        ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 70, v);
-    }
-    SBEPP_CPP20_CONSTEXPR ::engine_schemas::types::OrderStatus orderStatus() const noexcept
-    {
-        return ::sbepp::detail::get_value<
-            ::engine_schemas::types::OrderStatus, ::engine_schemas::types::OrderStatus, ::sbepp::endian::little>(*this, 71);
-    }
-
-    template<
-        typename T = void,
-        typename = ::sbepp::detail::enable_if_writable_t<Byte, T>>
-    SBEPP_CPP20_CONSTEXPR void orderStatus(::engine_schemas::types::OrderStatus v) const noexcept
-    {
-        ::sbepp::detail::set_value<::sbepp::endian::little>(*this, 71, v);
+            *this, 30);
     }
     constexpr ::engine_schemas::types::STRING4<Byte> instrumentID() const noexcept
     {
         return ::sbepp::detail::get_static_field_view<::engine_schemas::types::STRING4<Byte>>(
-            *this, 72);
+            *this, 66);
     }
-    constexpr ::engine_schemas::types::STRING20<Byte> trader() const noexcept
+    constexpr ::engine_schemas::types::STRING36<Byte> buyOrderID() const noexcept
+    {
+        return ::sbepp::detail::get_static_field_view<::engine_schemas::types::STRING36<Byte>>(
+            *this, 70);
+    }
+    constexpr ::engine_schemas::types::STRING36<Byte> sellOrderID() const noexcept
+    {
+        return ::sbepp::detail::get_static_field_view<::engine_schemas::types::STRING36<Byte>>(
+            *this, 106);
+    }
+    constexpr ::engine_schemas::types::STRING20<Byte> buyTrader() const noexcept
     {
         return ::sbepp::detail::get_static_field_view<::engine_schemas::types::STRING20<Byte>>(
-            *this, 76);
+            *this, 142);
+    }
+    constexpr ::engine_schemas::types::STRING20<Byte> sellTrader() const noexcept
+    {
+        return ::sbepp::detail::get_static_field_view<::engine_schemas::types::STRING20<Byte>>(
+            *this, 162);
     }
 
     template<
@@ -257,34 +231,11 @@ public:
         typename = ::sbepp::detail::enable_if_cursor_compatible_t<
             Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
     SBEPP_CPP20_CONSTEXPR auto
-        leavesQuantity(Cursor&& c) const noexcept
-            -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::UINT32>
-    {
-        return c.template get_value<::engine_schemas::types::UINT32, ::std::uint32_t, ::sbepp::endian::little>(
-            *this, 0, 29);
-    }
-
-    template<
-        typename Cursor,
-        typename = ::sbepp::detail::enable_if_cursor_writeable_t<
-            Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
-    SBEPP_CPP20_CONSTEXPR void leavesQuantity(
-        ::engine_schemas::types::UINT32 v, Cursor&& c) const noexcept
-    {
-        return c.template set_value<::sbepp::endian::little>(
-            *this, 0, 29, v.value());
-    }
-
-    template<
-        typename Cursor,
-        typename = ::sbepp::detail::enable_if_cursor_compatible_t<
-            Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
-    SBEPP_CPP20_CONSTEXPR auto
         side(Cursor&& c) const noexcept
         -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::Side>
     {
         return c.template get_value<::engine_schemas::types::Side, ::engine_schemas::types::Side, ::sbepp::endian::little>(
-            *this, 0, 33);
+            *this, 0, 29);
     }
 
     template<
@@ -295,7 +246,7 @@ public:
         ::engine_schemas::types::Side v, Cursor&& c) const noexcept
     {
         return c.template set_value<::sbepp::endian::little>(
-            *this, 0, 33, v);
+            *this, 0, 29, v);
     }
 
     template<
@@ -303,59 +254,13 @@ public:
         typename = ::sbepp::detail::enable_if_cursor_compatible_t<
             Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
     SBEPP_CPP20_CONSTEXPR auto
-        orderID(Cursor&& c) const noexcept
+        tradeID(Cursor&& c) const noexcept
         -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::STRING36<
             ::sbepp::detail::cursor_byte_type_t<Cursor>>>
     {
         return c.template get_static_field_view<::engine_schemas::types::STRING36<
             ::sbepp::detail::cursor_byte_type_t<Cursor>>>(
-                *this, 0, 34);
-    }
-
-    template<
-        typename Cursor,
-        typename = ::sbepp::detail::enable_if_cursor_compatible_t<
-            Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
-    SBEPP_CPP20_CONSTEXPR auto
-        orderType(Cursor&& c) const noexcept
-        -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::OrderType>
-    {
-        return c.template get_value<::engine_schemas::types::OrderType, ::engine_schemas::types::OrderType, ::sbepp::endian::little>(
-            *this, 0, 70);
-    }
-
-    template<
-        typename Cursor,
-        typename = ::sbepp::detail::enable_if_cursor_writeable_t<
-            Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
-    SBEPP_CPP20_CONSTEXPR void orderType(
-        ::engine_schemas::types::OrderType v, Cursor&& c) const noexcept
-    {
-        return c.template set_value<::sbepp::endian::little>(
-            *this, 0, 70, v);
-    }
-
-    template<
-        typename Cursor,
-        typename = ::sbepp::detail::enable_if_cursor_compatible_t<
-            Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
-    SBEPP_CPP20_CONSTEXPR auto
-        orderStatus(Cursor&& c) const noexcept
-        -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::OrderStatus>
-    {
-        return c.template get_value<::engine_schemas::types::OrderStatus, ::engine_schemas::types::OrderStatus, ::sbepp::endian::little>(
-            *this, 0, 71);
-    }
-
-    template<
-        typename Cursor,
-        typename = ::sbepp::detail::enable_if_cursor_writeable_t<
-            Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
-    SBEPP_CPP20_CONSTEXPR void orderStatus(
-        ::engine_schemas::types::OrderStatus v, Cursor&& c) const noexcept
-    {
-        return c.template set_value<::sbepp::endian::little>(
-            *this, 0, 71, v);
+                *this, 0, 30);
     }
 
     template<
@@ -369,19 +274,61 @@ public:
     {
         return c.template get_static_field_view<::engine_schemas::types::STRING4<
             ::sbepp::detail::cursor_byte_type_t<Cursor>>>(
-                *this, 0, 72);
+                *this, 0, 66);
     }
 
     template<
         typename Cursor,
         typename = ::sbepp::detail::enable_if_cursor_compatible_t<
             Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
-    SBEPP_CPP20_CONSTEXPR auto trader(Cursor&& c) const noexcept
+    SBEPP_CPP20_CONSTEXPR auto
+        buyOrderID(Cursor&& c) const noexcept
+        -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::STRING36<
+            ::sbepp::detail::cursor_byte_type_t<Cursor>>>
+    {
+        return c.template get_static_field_view<::engine_schemas::types::STRING36<
+            ::sbepp::detail::cursor_byte_type_t<Cursor>>>(
+                *this, 0, 70);
+    }
+
+    template<
+        typename Cursor,
+        typename = ::sbepp::detail::enable_if_cursor_compatible_t<
+            Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
+    SBEPP_CPP20_CONSTEXPR auto
+        sellOrderID(Cursor&& c) const noexcept
+        -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::STRING36<
+            ::sbepp::detail::cursor_byte_type_t<Cursor>>>
+    {
+        return c.template get_static_field_view<::engine_schemas::types::STRING36<
+            ::sbepp::detail::cursor_byte_type_t<Cursor>>>(
+                *this, 0, 106);
+    }
+
+    template<
+        typename Cursor,
+        typename = ::sbepp::detail::enable_if_cursor_compatible_t<
+            Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
+    SBEPP_CPP20_CONSTEXPR auto
+        buyTrader(Cursor&& c) const noexcept
+        -> ::sbepp::detail::cursor_result_type_t<Cursor, ::engine_schemas::types::STRING20<
+            ::sbepp::detail::cursor_byte_type_t<Cursor>>>
+    {
+        return c.template get_static_field_view<::engine_schemas::types::STRING20<
+            ::sbepp::detail::cursor_byte_type_t<Cursor>>>(
+                *this, 0, 142);
+    }
+
+    template<
+        typename Cursor,
+        typename = ::sbepp::detail::enable_if_cursor_compatible_t<
+            Byte, ::sbepp::detail::cursor_byte_type_t<Cursor>>>
+    SBEPP_CPP20_CONSTEXPR auto sellTrader(Cursor&& c) const noexcept
         -> ::sbepp::detail::cursor_result_type_t<Cursor,
             ::engine_schemas::types::STRING20<::sbepp::detail::cursor_byte_type_t<Cursor>>>
     {
         return c.template get_last_static_field_view<::engine_schemas::types::STRING20<::sbepp::detail::cursor_byte_type_t<Cursor>>>(
-            *this, 0, 76);
+            *this, 0, 162);
     }
 
 
@@ -393,9 +340,9 @@ public:
     {
         auto header = operator()(::sbepp::detail::get_header_tag{});
         header.schemaId({1});
-        header.templateId({1});
+        header.templateId({2});
         header.version({0});
-        header.blockLength({84});
+        header.blockLength({170});
         header.numGroups({0});
 
         header.numVarDataFields({0});
@@ -415,7 +362,7 @@ public:
     SBEPP_CPP14_CONSTEXPR void operator()(
         ::sbepp::detail::visit_tag, Visitor& v, Cursor& c)
     {
-        v.template on_message(*this, c, ::engine_schemas::schema::messages::order_schema{});
+        v.template on_message(*this, c, ::engine_schemas::schema::messages::trade_schema{});
     }
 
 
@@ -425,17 +372,17 @@ public:
     {
         (void)v;
         (void)c;
-        return v.template on_field(this->messageType(c), ::engine_schemas::schema::messages::order_schema::messageType{})
-||v.template on_field(this->eventTimestamp(c), ::engine_schemas::schema::messages::order_schema::eventTimestamp{})
-||v.template on_field(this->price(c), ::engine_schemas::schema::messages::order_schema::price{})
-||v.template on_field(this->quantity(c), ::engine_schemas::schema::messages::order_schema::quantity{})
-||v.template on_field(this->leavesQuantity(c), ::engine_schemas::schema::messages::order_schema::leavesQuantity{})
-||v.template on_field(this->side(c), ::engine_schemas::schema::messages::order_schema::side{})
-||v.template on_field(this->orderID(c), ::engine_schemas::schema::messages::order_schema::orderID{})
-||v.template on_field(this->orderType(c), ::engine_schemas::schema::messages::order_schema::orderType{})
-||v.template on_field(this->orderStatus(c), ::engine_schemas::schema::messages::order_schema::orderStatus{})
-||v.template on_field(this->instrumentID(c), ::engine_schemas::schema::messages::order_schema::instrumentID{})
-||v.template on_field(this->trader(c), ::engine_schemas::schema::messages::order_schema::trader{});
+        return v.template on_field(this->messageType(c), ::engine_schemas::schema::messages::trade_schema::messageType{})
+||v.template on_field(this->eventTimestamp(c), ::engine_schemas::schema::messages::trade_schema::eventTimestamp{})
+||v.template on_field(this->price(c), ::engine_schemas::schema::messages::trade_schema::price{})
+||v.template on_field(this->quantity(c), ::engine_schemas::schema::messages::trade_schema::quantity{})
+||v.template on_field(this->side(c), ::engine_schemas::schema::messages::trade_schema::side{})
+||v.template on_field(this->tradeID(c), ::engine_schemas::schema::messages::trade_schema::tradeID{})
+||v.template on_field(this->instrumentID(c), ::engine_schemas::schema::messages::trade_schema::instrumentID{})
+||v.template on_field(this->buyOrderID(c), ::engine_schemas::schema::messages::trade_schema::buyOrderID{})
+||v.template on_field(this->sellOrderID(c), ::engine_schemas::schema::messages::trade_schema::sellOrderID{})
+||v.template on_field(this->buyTrader(c), ::engine_schemas::schema::messages::trade_schema::buyTrader{})
+||v.template on_field(this->sellTrader(c), ::engine_schemas::schema::messages::trade_schema::sellTrader{});
     }
 
 };
@@ -447,7 +394,7 @@ namespace messages
 {
 
     template<typename Byte>
-    using order_schema = ::engine_schemas::detail::messages::message_1<Byte>;
+    using trade_schema = ::engine_schemas::detail::messages::message_2<Byte>;
 
 } // namespace messages
 } // namespace engine_schemas
@@ -456,12 +403,12 @@ namespace sbepp
 {
 
 template<>
-class message_traits<::engine_schemas::schema::messages::order_schema>
+class message_traits<::engine_schemas::schema::messages::trade_schema>
 {
 public:
     static constexpr const char* name() noexcept
     {
-        return "order_schema";
+        return "trade_schema";
     }
 
     static constexpr const char* description() noexcept
@@ -471,12 +418,12 @@ public:
 
     static constexpr message_id_t id() noexcept
     {
-        return 1;
+        return 2;
     }
 
     static constexpr block_length_t block_length() noexcept
     {
-        return 84;
+        return 170;
     }
 
     static constexpr const char* semantic_type() noexcept
@@ -492,12 +439,12 @@ public:
     
     
     template<typename Byte>
-    using value_type = ::engine_schemas::messages::order_schema<Byte>;
+    using value_type = ::engine_schemas::messages::trade_schema<Byte>;
 
 };
 
 template<>
-class field_traits<::engine_schemas::schema::messages::order_schema::messageType>
+class field_traits<::engine_schemas::schema::messages::trade_schema::messageType>
 {
 public:
     static constexpr const char* name() noexcept
@@ -537,7 +484,7 @@ public:
 };
 
 template<>
-class field_traits<::engine_schemas::schema::messages::order_schema::eventTimestamp>
+class field_traits<::engine_schemas::schema::messages::trade_schema::eventTimestamp>
 {
 public:
     static constexpr const char* name() noexcept
@@ -577,7 +524,7 @@ public:
 };
 
 template<>
-class field_traits<::engine_schemas::schema::messages::order_schema::price>
+class field_traits<::engine_schemas::schema::messages::trade_schema::price>
 {
 public:
     static constexpr const char* name() noexcept
@@ -617,7 +564,7 @@ public:
 };
 
 template<>
-class field_traits<::engine_schemas::schema::messages::order_schema::quantity>
+class field_traits<::engine_schemas::schema::messages::trade_schema::quantity>
 {
 public:
     static constexpr const char* name() noexcept
@@ -657,12 +604,12 @@ public:
 };
 
 template<>
-class field_traits<::engine_schemas::schema::messages::order_schema::leavesQuantity>
+class field_traits<::engine_schemas::schema::messages::trade_schema::side>
 {
 public:
     static constexpr const char* name() noexcept
     {
-        return "leavesQuantity";
+        return "side";
     }
 
     static constexpr member_id_t id() noexcept
@@ -692,17 +639,17 @@ public:
     }
 
     
-    using value_type = ::engine_schemas::types::UINT32;
-    using value_type_tag = ::engine_schemas::schema::types::UINT32;
+    using value_type = ::engine_schemas::types::Side;
+    using value_type_tag = ::engine_schemas::schema::types::Side;
 };
 
 template<>
-class field_traits<::engine_schemas::schema::messages::order_schema::side>
+class field_traits<::engine_schemas::schema::messages::trade_schema::tradeID>
 {
 public:
     static constexpr const char* name() noexcept
     {
-        return "side";
+        return "tradeID";
     }
 
     static constexpr member_id_t id() noexcept
@@ -722,7 +669,7 @@ public:
     
     static constexpr offset_t offset() noexcept
     {
-        return {21};
+        return {18};
     }
 
 
@@ -732,17 +679,20 @@ public:
     }
 
     
-    using value_type = ::engine_schemas::types::Side;
-    using value_type_tag = ::engine_schemas::schema::types::Side;
+    
+    template<typename Byte>
+    using value_type = ::engine_schemas::types::STRING36<Byte>;
+
+    using value_type_tag = ::engine_schemas::schema::types::STRING36;
 };
 
 template<>
-class field_traits<::engine_schemas::schema::messages::order_schema::orderID>
+class field_traits<::engine_schemas::schema::messages::trade_schema::instrumentID>
 {
 public:
     static constexpr const char* name() noexcept
     {
-        return "orderID";
+        return "instrumentID";
     }
 
     static constexpr member_id_t id() noexcept
@@ -762,7 +712,7 @@ public:
     
     static constexpr offset_t offset() noexcept
     {
-        return {22};
+        return {54};
     }
 
 
@@ -774,18 +724,18 @@ public:
     
     
     template<typename Byte>
-    using value_type = ::engine_schemas::types::STRING36<Byte>;
+    using value_type = ::engine_schemas::types::STRING4<Byte>;
 
-    using value_type_tag = ::engine_schemas::schema::types::STRING36;
+    using value_type_tag = ::engine_schemas::schema::types::STRING4;
 };
 
 template<>
-class field_traits<::engine_schemas::schema::messages::order_schema::orderType>
+class field_traits<::engine_schemas::schema::messages::trade_schema::buyOrderID>
 {
 public:
     static constexpr const char* name() noexcept
     {
-        return "orderType";
+        return "buyOrderID";
     }
 
     static constexpr member_id_t id() noexcept
@@ -815,17 +765,20 @@ public:
     }
 
     
-    using value_type = ::engine_schemas::types::OrderType;
-    using value_type_tag = ::engine_schemas::schema::types::OrderType;
+    
+    template<typename Byte>
+    using value_type = ::engine_schemas::types::STRING36<Byte>;
+
+    using value_type_tag = ::engine_schemas::schema::types::STRING36;
 };
 
 template<>
-class field_traits<::engine_schemas::schema::messages::order_schema::orderStatus>
+class field_traits<::engine_schemas::schema::messages::trade_schema::sellOrderID>
 {
 public:
     static constexpr const char* name() noexcept
     {
-        return "orderStatus";
+        return "sellOrderID";
     }
 
     static constexpr member_id_t id() noexcept
@@ -845,7 +798,7 @@ public:
     
     static constexpr offset_t offset() noexcept
     {
-        return {59};
+        return {94};
     }
 
 
@@ -855,17 +808,20 @@ public:
     }
 
     
-    using value_type = ::engine_schemas::types::OrderStatus;
-    using value_type_tag = ::engine_schemas::schema::types::OrderStatus;
+    
+    template<typename Byte>
+    using value_type = ::engine_schemas::types::STRING36<Byte>;
+
+    using value_type_tag = ::engine_schemas::schema::types::STRING36;
 };
 
 template<>
-class field_traits<::engine_schemas::schema::messages::order_schema::instrumentID>
+class field_traits<::engine_schemas::schema::messages::trade_schema::buyTrader>
 {
 public:
     static constexpr const char* name() noexcept
     {
-        return "instrumentID";
+        return "buyTrader";
     }
 
     static constexpr member_id_t id() noexcept
@@ -885,7 +841,7 @@ public:
     
     static constexpr offset_t offset() noexcept
     {
-        return {60};
+        return {130};
     }
 
 
@@ -897,18 +853,18 @@ public:
     
     
     template<typename Byte>
-    using value_type = ::engine_schemas::types::STRING4<Byte>;
+    using value_type = ::engine_schemas::types::STRING20<Byte>;
 
-    using value_type_tag = ::engine_schemas::schema::types::STRING4;
+    using value_type_tag = ::engine_schemas::schema::types::STRING20;
 };
 
 template<>
-class field_traits<::engine_schemas::schema::messages::order_schema::trader>
+class field_traits<::engine_schemas::schema::messages::trade_schema::sellTrader>
 {
 public:
     static constexpr const char* name() noexcept
     {
-        return "trader";
+        return "sellTrader";
     }
 
     static constexpr member_id_t id() noexcept
@@ -928,7 +884,7 @@ public:
     
     static constexpr offset_t offset() noexcept
     {
-        return {64};
+        return {150};
     }
 
 

@@ -161,7 +161,7 @@ void Order::printOrderDetails() const{
     Logger::getLogger()->info(details_string);
 };
 
-bool Order::fillOrder(unsigned int fill_quantity) const{
+unsigned int Order::fillOrder(unsigned int fill_quantity) const{
     fill_quantity = std::min(fill_quantity, leaves_quantity);
 
     updateLeavesQuantity(fill_quantity);
@@ -169,7 +169,7 @@ bool Order::fillOrder(unsigned int fill_quantity) const{
     updateEventTimestamp();
     Logger::getLogger()->info("ORDER MATCH - order id: " + getOrderIDString() + ", fill quantity: " + std::to_string(fill_quantity) 
     + ", quantity: " + std::to_string(quantity) + ", leaves quantity: " + std::to_string(leaves_quantity));
-    return order_status == OrderStatus::filled;
+    return fill_quantity;
 };
 
 void Order::updateLeavesQuantity(unsigned int fill_quantity) const{
@@ -212,9 +212,10 @@ bool Order::checkMatch(Order& order) const{
 };
 
 void Order::publishEvent() const{
-    // note: it's up to client to provide sufficient buffer
-    std::array<char, EVENT_BUFFER_SIZE> buf{};
-    auto m = sbepp::make_view<engine_schemas::messages::order_schema>(buf.data(), buf.size());    
-    encode::order(this, m);
+    auto buf = encode::order(this);
     event::Publisher::getPublisher()->publish(buf);
-}
+};
+
+bool Order::isBuy() const{
+    return side == 'B';
+};

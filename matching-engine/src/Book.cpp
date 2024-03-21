@@ -2,6 +2,9 @@
 #include <type_traits>
 #include "Book.hpp"
 #include "Logger.hpp"
+#include "event.hpp"
+#include "encode.hpp"
+#include <sbepp-gen/engine_schemas/messages/trade_schema.hpp>
 
 Book::Book(std::string arg_instrument_id) : instrument_id(arg_instrument_id){};
 
@@ -101,10 +104,11 @@ void Book::matchBook(Order& new_order, std::multiset<Order, compareOrders>& orde
         is_match = book_it->checkMatch(new_order);
         // if orders match fill the orders
         if(is_match){
-            book_it->fillOrder(new_order.getQuantity());
+            const unsigned int fill_quantity = book_it->fillOrder(new_order.getLeavesQuantity());
             book_it->publishEvent();
-            new_order.fillOrder(book_it->getQuantity());
+            new_order.fillOrder(fill_quantity);
             new_order.publishEvent();
+            publishTradeEvent(&new_order, &(*book_it), fill_quantity);
         };
 
         // if current order filled, remove from orderbook
@@ -131,10 +135,11 @@ void Book::matchMarket(Order& new_order, std::vector<Order>& market_orders){
         is_match = mkt_it->checkMatch(new_order);
         // if orders match fill the orders
         if(is_match){
-            mkt_it->fillOrder(new_order.getQuantity());
+            const unsigned int fill_quantity = mkt_it->fillOrder(new_order.getLeavesQuantity());
             mkt_it->publishEvent();
-            new_order.fillOrder(mkt_it->getQuantity());
+            new_order.fillOrder(fill_quantity);
             new_order.publishEvent();
+            publishTradeEvent(&new_order, &(*mkt_it), fill_quantity);
         };
 
         // if current order filled, remove from orderbook
@@ -173,4 +178,11 @@ Order Book::getBestAsk(){
     else{
         throw std::runtime_error("No asks present in the book");
     }
+};
+
+// o1 = new order that came in an matched an order on the book
+// o2 = order that was already sitting on the book
+void Book::publishTradeEvent(const Order* o1, const Order* o2, const unsigned int& fill_quantity){
+    auto buf = encode::trade(o1, o2, fill_quantity);
+    event::Publisher::getPublisher()->publish(buf);
 };

@@ -18,12 +18,12 @@ namespace detail
 namespace types
 {
 
-class type_5
-    : public ::sbepp::detail::required_base<::std::uint64_t, type_5>
+class type_6
+    : public ::sbepp::detail::required_base<::std::uint64_t, type_6>
 {
 public:
     using ::sbepp::detail::required_base<
-        ::std::uint64_t, type_5>::required_base;
+        ::std::uint64_t, type_6>::required_base;
 
     static constexpr value_type min_value() noexcept
     {
@@ -41,7 +41,7 @@ public:
 
 namespace types
 {
-using UINT64 = ::engine_schemas::detail::types::type_5;
+using UINT64 = ::engine_schemas::detail::types::type_6;
 } // namespace types
 } // namespace engine_schemas
 

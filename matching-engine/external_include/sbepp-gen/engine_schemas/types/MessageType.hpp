@@ -18,19 +18,30 @@ namespace detail
 namespace types
 {
 
-template<typename Byte>
-using type_2 = ::sbepp::detail::static_array_ref<
-    Byte, char, 36>;
+class type_1
+    : public ::sbepp::detail::required_base<char, type_1>
+{
+public:
+    using ::sbepp::detail::required_base<
+        char, type_1>::required_base;
+
+    static constexpr value_type min_value() noexcept
+    {
+        return {0x20};
+    }
+
+    static constexpr value_type max_value() noexcept
+    {
+        return {0x7e};
+    }
+};
 
 } // namespace types
 } // namespace detail
 
 namespace types
 {
-
-    template<typename Byte>
-    using STRING36 = ::engine_schemas::detail::types::type_2<Byte>;
-
+using MessageType = ::engine_schemas::detail::types::type_1;
 } // namespace types
 } // namespace engine_schemas
 
@@ -38,12 +49,12 @@ namespace sbepp
 {
 
 template<>
-class type_traits<::engine_schemas::schema::types::STRING36>
+class type_traits<::engine_schemas::schema::types::MessageType>
 {
 public:
     static constexpr const char* name() noexcept
     {
-        return "STRING36";
+        return "MessageType";
     }
 
     static constexpr const char* description() noexcept
@@ -58,10 +69,20 @@ public:
 
     using primitive_type = char;
     
+    static constexpr primitive_type min_value() noexcept
+    {
+        return value_type::min_value();
+    }
+    
+    static constexpr primitive_type max_value() noexcept
+    {
+        return value_type::max_value();
+    }
+
     
     static constexpr length_t length() noexcept
     {
-        return 36;
+        return 1;
     }
     
     
@@ -82,10 +103,7 @@ public:
     }
 
     
-    
-    template<typename Byte>
-    using value_type = ::engine_schemas::types::STRING36<Byte>;
-
+    using value_type = ::engine_schemas::types::MessageType;
 };
 
 }  // namespace sbepp

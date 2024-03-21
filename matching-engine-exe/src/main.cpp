@@ -105,8 +105,6 @@ int main(int argc, char* argv[]){
 
     unsigned int line_count = 0;
     std::string line;
-    const unsigned int buf_size = 1024;
-    std::array<char, buf_size> buf;
 
     // Read each line of the file and decode
     while (std::getline(file, line)) {
@@ -115,8 +113,7 @@ int main(int argc, char* argv[]){
         Logger::getLogger()->info("String length: " + std::to_string(line.length()));
         ++line_count;
         Logger::getLogger()->info("Line Count: " + std::to_string(line_count));
-        std::copy(line.data(), line.data() + buf_size, buf.begin());
-        std::string res = decode::order(buf);
+        std::string res = decode::data(line);
         Logger::getLogger()->info(res);
     }
 

@@ -89,9 +89,10 @@ public:
     engine_schemas::types::OrderStatus getSBEOrderStatus() const;
     engine_schemas::types::OrderType getSBEOrderType() const;    
     void printOrderDetails() const;  
-    bool fillOrder(unsigned int fill_quantity) const;
+    unsigned int fillOrder(unsigned int fill_quantity) const;
     bool checkMatch(Order& order) const;
     void publishEvent() const;
+    bool isBuy() const;
 };
 
 #endif //ORDER_H

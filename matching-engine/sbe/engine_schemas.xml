@@ -16,7 +16,8 @@
         <type name="STRING36" primitiveType="char" length="36" />
         <type name="STRING4" primitiveType="char" length="4" />
         <type name="STRING20" primitiveType="char" length="20" />
- 
+        <type name="MessageType" primitiveType="char"/>
+
         <enum name="Side" encodingType="char">
             <validValue name="buy">B</validValue>
             <validValue name="sell">S</validValue>
@@ -31,20 +32,35 @@
             <validValue name="newo">0</validValue>
             <validValue name="cancelled">1</validValue>
             <validValue name="partiallyFilled">2</validValue>
-            <validValue name="filled">3</validValue>                        
-        </enum>             
+            <validValue name="filled">3</validValue>
+        </enum>     
     </types>
- 
+    <!-- messageType should always be at the start so value is always at pos 0 in the buffer -->
     <sbe:message name="order_schema" id="1">
-        <field name="eventTimestamp" id="1" type="UINT64"/>
-        <field name="price" id="2" type="UINT32"/>
-        <field name="quantity" id="3" type="UINT32"/>
-        <field name="leavesQuantity" id="4" type="UINT32"/>
-        <field name="side" id="5" type="Side"/>
-        <field name="orderID" id="6" type="STRING36" semanticType="String"/>
-        <field name="orderType" id="7" type="OrderType"/>
-        <field name="orderStatus" id="8" type="OrderStatus"/>
-        <field name="instrumentID" id="9" type="STRING4" semanticType="String"/>
-        <field name="trader" id="10" type="STRING20" semanticType="String"/>
+        <field name="messageType" id="1" type="MessageType"/>
+        <field name="eventTimestamp" id="2" type="UINT64"/>
+        <field name="price" id="3" type="UINT32"/>
+        <field name="quantity" id="4" type="UINT32"/>
+        <field name="leavesQuantity" id="5" type="UINT32"/>
+        <field name="side" id="6" type="Side"/>
+        <field name="orderID" id="7" type="STRING36" semanticType="String"/>
+        <field name="orderType" id="8" type="OrderType"/>
+        <field name="orderStatus" id="9" type="OrderStatus"/>
+        <field name="instrumentID" id="10" type="STRING4" semanticType="String"/>
+        <field name="trader" id="11" type="STRING20" semanticType="String"/>
     </sbe:message>
+    
+    <sbe:message name="trade_schema" id="2">
+        <field name="messageType" id="1" type="MessageType"/>
+        <field name="eventTimestamp" id="2" type="UINT64"/>
+        <field name="price" id="3" type="UINT32"/>
+        <field name="quantity" id="4" type="UINT32"/>
+        <field name="side" id="5" type="Side"/>
+        <field name="tradeID" id="6" type="STRING36" semanticType="String"/>
+        <field name="instrumentID" id="7" type="STRING4" semanticType="String"/>
+        <field name="buyOrderID" id="8" type="STRING36" semanticType="String"/>
+        <field name="sellOrderID" id="9" type="STRING36" semanticType="String"/>
+        <field name="buyTrader" id="10" type="STRING20" semanticType="String"/>
+        <field name="sellTrader" id="11" type="STRING20" semanticType="String"/>
+    </sbe:message>    
 </sbe:messageSchema>

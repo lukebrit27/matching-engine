@@ -2,7 +2,7 @@
 
 #ifndef EVENT_H
 #define EVENT_H
-#define EVENT_BUFFER_SIZE 1024
+#define EVENT_BUFFER_SIZE 200
 #include <string>
 #include <unordered_map>
 #include <variant>

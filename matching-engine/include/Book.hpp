@@ -26,6 +26,7 @@ private:
     void matchBook(Order& new_order, std::multiset<Order, compareOrders>& orderbook);
     void matchMarket(Order& new_order, std::vector<Order>& market_orders);
     void queue(Order& new_order);
+    void publishTradeEvent(const Order* o1, const Order* o2, const unsigned int& fill_quantity);
 
 public:
     // constructor

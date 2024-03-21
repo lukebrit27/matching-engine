@@ -28,13 +28,13 @@ struct enum_2
     struct sell{};
 
 };
+struct type_1{};
 struct enum_3
 {
     struct limit{};
     struct market{};
 
 };
-struct type_1{};
 struct type_2{};
 struct type_3{};
 struct type_4{};
@@ -45,18 +45,20 @@ struct type_8{};
 struct type_9{};
 struct type_10{};
 struct type_11{};
+struct type_12{};
 struct composite_1
 {
-using blockLength = ::engine_schemas::detail::schema::type_6;
-using templateId = ::engine_schemas::detail::schema::type_7;
-using schemaId = ::engine_schemas::detail::schema::type_8;
-using version = ::engine_schemas::detail::schema::type_9;
-using numGroups = ::engine_schemas::detail::schema::type_10;
-using numVarDataFields = ::engine_schemas::detail::schema::type_11;
+using blockLength = ::engine_schemas::detail::schema::type_7;
+using templateId = ::engine_schemas::detail::schema::type_8;
+using schemaId = ::engine_schemas::detail::schema::type_9;
+using version = ::engine_schemas::detail::schema::type_10;
+using numGroups = ::engine_schemas::detail::schema::type_11;
+using numVarDataFields = ::engine_schemas::detail::schema::type_12;
 
 };
 struct message_1
 {
+    struct messageType{};
     struct eventTimestamp{};
     struct price{};
     struct quantity{};
@@ -69,18 +71,34 @@ struct message_1
     struct trader{};
 
 };
+struct message_2
+{
+    struct messageType{};
+    struct eventTimestamp{};
+    struct price{};
+    struct quantity{};
+    struct side{};
+    struct tradeID{};
+    struct instrumentID{};
+    struct buyOrderID{};
+    struct sellOrderID{};
+    struct buyTrader{};
+    struct sellTrader{};
+
+};
 
 
 struct types_0
 {
     using OrderStatus = ::engine_schemas::detail::schema::enum_1;
     using Side = ::engine_schemas::detail::schema::enum_2;
+    using MessageType = ::engine_schemas::detail::schema::type_1;
     using OrderType = ::engine_schemas::detail::schema::enum_3;
-    using STRING36 = ::engine_schemas::detail::schema::type_1;
-    using STRING20 = ::engine_schemas::detail::schema::type_2;
-    using STRING4 = ::engine_schemas::detail::schema::type_3;
-    using UINT32 = ::engine_schemas::detail::schema::type_4;
-    using UINT64 = ::engine_schemas::detail::schema::type_5;
+    using STRING36 = ::engine_schemas::detail::schema::type_2;
+    using STRING20 = ::engine_schemas::detail::schema::type_3;
+    using STRING4 = ::engine_schemas::detail::schema::type_4;
+    using UINT32 = ::engine_schemas::detail::schema::type_5;
+    using UINT64 = ::engine_schemas::detail::schema::type_6;
     using messageHeader = ::engine_schemas::detail::schema::composite_1;
 
 };
@@ -88,6 +106,7 @@ struct types_0
 struct messages_0
 {
     using order_schema = ::engine_schemas::detail::schema::message_1;
+    using trade_schema = ::engine_schemas::detail::schema::message_2;
 
 };
 } // namespace schema
