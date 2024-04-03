@@ -54,9 +54,9 @@ void Publisher::publish(std::array<char, EVENT_BUFFER_SIZE>& buf){
             const auto& handle = conn.second[HANDLE];
         // if it is a file then write to it
         if (std::holds_alternative<std::shared_ptr<std::ofstream>>(handle)) {
-            auto fileStreamPtr = std::get<std::shared_ptr<std::ofstream>>(handle); // get desired type from variant 
+            auto fileStreamPtr = std::get<std::shared_ptr<std::ofstream>>(handle); // get desired type from variant
+            *fileStreamPtr << '\n'; // ensures data is written on a new line
             fileStreamPtr->write(buf.data(), buf.size());
-            *fileStreamPtr << '\n'; // new line for next write
         }
         });
     };

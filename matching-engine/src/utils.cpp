@@ -33,3 +33,15 @@ std::string utils::timePointAsString(const std::chrono::system_clock::time_point
     ts.resize(ts.size()-1);
     return ts;
 }
+
+// converts character array
+// to string and returns it
+std::string utils::convertToString(const char* a, int size)
+{
+    int i;
+    std::string s = "";
+    for (i = 0; i < size; i++) {
+        s = s + a[i];
+    }
+    return s;
+}

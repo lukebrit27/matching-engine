@@ -11,6 +11,7 @@ namespace utils{
     std::vector<int> til(int x);
     std::vector<int> til_shuffle(int x);
     std::string timePointAsString(const std::chrono::system_clock::time_point& tp);
+    std::string convertToString(const char* a, int size);
     
     template<typename T, typename Tag>
     void fillField(T& field, const std::string& inputString){

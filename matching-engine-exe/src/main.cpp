@@ -97,26 +97,9 @@ int main(int argc, char* argv[]){
 
     // decode sbe messages
     Logger::getLogger()->info("--------------------------------------------------------------");
-    std::ifstream file("/tmp/testfile");
-    if (!file.is_open()) {
-        std::cerr << "Error opening file!" << std::endl;
-        return 1;
-    }
-
-    unsigned int line_count = 0;
-    std::string line;
-
-    // Read each line of the file and decode
-    while (std::getline(file, line)) {
-        Logger::getLogger()->info("test");
-        Logger::getLogger()->info(line);
-        Logger::getLogger()->info("String length: " + std::to_string(line.length()));
-        ++line_count;
-        Logger::getLogger()->info("Line Count: " + std::to_string(line_count));
-        std::string res = decode::data(line);
-        Logger::getLogger()->info(res);
-    }
-
-    file.close(); // Close the file when done
+    decode::Data res = decode::file("/tmp/testfile");
+    Logger::getLogger()->info("Order ID of the first order record is: " + std::get<decode::Column<decode::Order::OrderID>>(res.orders.data["orderID"]).data[0]);
+    Logger::getLogger()->info("Trade ID of the first trades record is: " + std::get<decode::Column<decode::Trade::TradeID>>(res.trades.data["tradeID"]).data[0]);
+    
     return 0;
 };
