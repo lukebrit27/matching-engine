@@ -98,7 +98,7 @@ int main(int argc, char* argv[]){
     // decode sbe messages
     Logger::getLogger()->info("--------------------------------------------------------------");
     decode::Data res = decode::file("/tmp/testfile");
-    Logger::getLogger()->info("Order ID of the first order record is: " + std::get<decode::Column<decode::Order::OrderID>>(res.orders.data["orderID"]).data[0]);
+    Logger::getLogger()->info("Trader of the first order record is: " + std::get<decode::Column<decode::Order::Trader>>(res.orders.data["trader"]).data[0]);
     Logger::getLogger()->info("Trade ID of the first trades record is: " + std::get<decode::Column<decode::Trade::TradeID>>(res.trades.data["tradeID"]).data[0]);
     
     return 0;

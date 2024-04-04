@@ -16,7 +16,13 @@ namespace decode{
     struct Column {
         std::vector<T> data;
         void emplace_back(const T& val){
-            data.emplace_back(val);
+            if constexpr (std::is_same_v<T, std::string>) {
+                std::string trimmed_val = val;
+                utils::rmTrailingNulls(trimmed_val);
+                data.emplace_back(trimmed_val);
+            } else {
+                data.emplace_back(val);
+            }            
         }
     };
 

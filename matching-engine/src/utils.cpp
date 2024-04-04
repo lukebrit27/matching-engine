@@ -45,3 +45,13 @@ std::string utils::convertToString(const char* a, int size)
     }
     return s;
 }
+
+void utils::rmTrailingNulls(std::string &str) {
+    size_t pos = str.find_last_not_of('\x00');
+    if (pos != std::string::npos) {
+        str.erase(pos + 1); // Erase from the position of the last non-null character to the end
+    } else {
+        // If the entire string consists of null characters, clear the string
+        str.clear();
+    }
+}
