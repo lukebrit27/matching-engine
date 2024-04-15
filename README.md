@@ -53,11 +53,11 @@ eng.addEventListener('/tmp/exchange-data', 'file')
 eng.start(instruments)
 
 # submit some orders
-eng.submitOrder("TES1", 2055, 3000, "limit", 'B', "trader1"); 
-eng.submitOrder("TES1", 2055, 33000, "limit", 'B', "trader1"); 
-eng.submitOrder("TES1", 2059, 400, "limit", 'B', "trader1"); 
-eng.submitOrder("TES1", 2056, 1100, "limit", 'B', "trader1"); 
-eng.submitOrder("TES1", 2055, 2000, "limit", 'S', "trader2");
+eng.submitOrder("AAPL", 2055, 3000, "limit", 'B', "trader1"); 
+eng.submitOrder("AAPL", 2055, 33000, "limit", 'B', "trader1"); 
+eng.submitOrder("AAPL", 2059, 400, "limit", 'B', "trader1"); 
+eng.submitOrder("AAPL", 2056, 1100, "limit", 'B', "trader1"); 
+eng.submitOrder("AAPL", 2055, 2000, "limit", 'S', "trader2");
 
 # read the exchange data in as a pandas dataframe
 order, trade = engine.decodeFile('/tmp/exchange-data', 0)
