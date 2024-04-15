@@ -37,7 +37,33 @@ python3 -m venv .venv;
 
 
 ## Usage
+```
+import matching_engine as engine
 
+# create matching engine
+eng = engine.Engine()
+
+# instruments that can be traded on the exchange
+instruments = ['AAPL','GOOG','MSFT','TSLA','AMZN','NFLX','META','JNJ','V','BA']
+
+# Add file where orders and trades will be written to (sbe format)
+eng.addEventListener('/tmp/exchange-data', 'file')
+
+# start the engine
+eng.start(instruments)
+
+# submit some orders
+eng.submitOrder("TES1", 2055, 3000, "limit", 'B', "trader1"); 
+eng.submitOrder("TES1", 2055, 33000, "limit", 'B', "trader1"); 
+eng.submitOrder("TES1", 2059, 400, "limit", 'B', "trader1"); 
+eng.submitOrder("TES1", 2056, 1100, "limit", 'B', "trader1"); 
+eng.submitOrder("TES1", 2055, 2000, "limit", 'S', "trader2");
+
+# read the exchange data in as a pandas dataframe
+order, trade = engine.decodeFile('/tmp/exchange-data', 0)
+order = pd.DataFrame(order)
+trade = pd.DataFrame(trade)
+```
 
 ## Contributing
 
